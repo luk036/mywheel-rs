@@ -1,9 +1,36 @@
+/// The `RepeatArray` struct represents an array that contains a single value repeated a specified
+/// number of times.
+/// 
+/// Properties:
+/// 
+/// * `value`: The `value` property is a generic type `T` that represents the value that will be
+/// repeated in the array.
+/// * `size`: The `size` property represents the number of elements in the array.
 pub struct RepeatArray<T> {
     value: T,
     size: usize,
 }
 
 impl<T: Copy> RepeatArray<T> {
+    /// The function creates a new RepeatArray with a given value and size.
+    /// 
+    /// Arguments:
+    /// 
+    /// * `value`: The value parameter is the value that will be repeated in the array.
+    /// * `size`: The `size` parameter represents the desired size of the `RepeatArray`. It specifies
+    /// the number of elements that the `RepeatArray` should contain.
+    /// 
+    /// Returns:
+    /// 
+    /// The `new` function is returning an instance of the `RepeatArray<T>` struct.
+    /// 
+    /// Examples:
+    /// 
+    /// ```rust
+    /// use mywheel_rs::array_like::RepeatArray;
+    /// let array = RepeatArray::new(1, 5);
+    /// assert_eq!(array.len(), 5);
+    /// ```
     pub fn new(value: T, size: usize) -> RepeatArray<T> {
         RepeatArray { value, size }
     }
@@ -12,6 +39,25 @@ impl<T: Copy> RepeatArray<T> {
 impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
     type Output = T;
 
+    /// The `index` function returns a reference to the value at the specified index.
+    /// 
+    /// Arguments:
+    /// 
+    /// * `_index`: The `_index` parameter is of type `usize`, which represents an index value used to
+    /// access elements in a collection or array.
+    /// 
+    /// Returns:
+    /// 
+    /// The method is returning a reference to the value stored in the `self` object.
+    /// 
+    /// Examples:
+    /// 
+    /// ```rust
+    /// use mywheel_rs::array_like::RepeatArray;
+    /// let array = RepeatArray::new(1, 5);
+    /// assert_eq!(array[0], 1);
+    /// assert_eq!(array[1], 1);
+    /// ```
     fn index(&self, _index: usize) -> &Self::Output {
         &self.value
     }
@@ -20,6 +66,21 @@ impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
 impl<T: Copy> std::iter::Iterator for RepeatArray<T> {
     type Item = T;
 
+    /// The `next` function returns the next item in the iterator if there is one, otherwise it returns
+    /// `None`.
+    /// 
+    /// Returns:
+    /// 
+    /// The method `next` returns an `Option<Self::Item>`.
+    /// 
+    /// Examples:
+    /// 
+    /// ```rust
+    /// use mywheel_rs::array_like::RepeatArray;
+    /// let mut array = RepeatArray::new(1, 5);
+    /// assert_eq!(array.next(), Some(1));
+    /// assert_eq!(array.next(), Some(1));
+    /// ```
     fn next(&mut self) -> Option<Self::Item> {
         if self.size > 0 {
             self.size -= 1;
@@ -31,6 +92,19 @@ impl<T: Copy> std::iter::Iterator for RepeatArray<T> {
 }
 
 impl<T: Copy> std::iter::ExactSizeIterator for RepeatArray<T> {
+    /// The `len` function returns the size of a data structure.
+    /// 
+    /// Returns:
+    /// 
+    /// The `len` function is returning the value of `self.size`, which is of type `usize`.
+    /// 
+    /// Examples:
+    /// 
+    /// ```rust
+    /// use mywheel_rs::array_like::RepeatArray;
+    /// let array = RepeatArray::new(1, 5);
+    /// assert_eq!(array.len(), 5);
+    /// ```
     fn len(&self) -> usize {
         self.size
     }
@@ -62,6 +136,15 @@ impl<T> ShiftArray<T> {
     /// Returns:
     ///
     /// The `new` function is returning an instance of the struct that it is defined in.
+    /// 
+    /// Examples:
+    /// 
+    /// ```
+    /// use mywheel_rs::array_like::ShiftArray;
+    ///
+    /// let mut shift_array = ShiftArray::new(vec![1, 2, 3]);
+    /// assert_eq!(shift_array.start, 0);
+    /// ```
     pub fn new(lst: Vec<T>) -> Self {
         Self { start: 0, lst }
     }
@@ -89,6 +172,17 @@ impl<T> ShiftArray<T> {
 
     /// The `items` function returns an iterator that yields the index and reference to each element in
     /// the `lst` vector, with the index adjusted by the `start` value.
+    /// 
+    /// # Examples
+    /// 
+    /// ```rust
+    /// use mywheel_rs::array_like::ShiftArray;
+    /// let mut shift_array = ShiftArray::new(vec![1, 2, 3]);
+    /// shift_array.set_start(1);
+    /// for (i, v) in shift_array.items() {
+    ///     assert_eq!(i, *v as usize);
+    /// }
+    /// ```
     pub fn items(&self) -> impl Iterator<Item = (usize, &T)> {
         self.lst
             .iter()
@@ -158,6 +252,12 @@ impl<T> std::ops::IndexMut<usize> for ShiftArray<T> {
 impl<T: Clone> std::iter::Iterator for ShiftArray<T> {
     type Item = T;
 
+    /// The `next` function returns the next item in a list if there is one, otherwise it returns
+    /// `None`.
+    /// 
+    /// Returns:
+    /// 
+    /// an `Option<Self::Item>`.
     fn next(&mut self) -> Option<Self::Item> {
         if self.start < self.lst.len() {
             let value = self.lst[self.start].clone();
@@ -170,6 +270,19 @@ impl<T: Clone> std::iter::Iterator for ShiftArray<T> {
 }
 
 impl<T: Copy> std::iter::ExactSizeIterator for ShiftArray<T> {
+    /// The `len` function returns the length of a list, taking into account a starting index.
+    /// 
+    /// Returns:
+    /// 
+    /// the length of the list `lst` minus the value of `start`.
+    /// 
+    /// # Examples
+    /// 
+    /// ```rust
+    /// use mywheel_rs::array_like::ShiftArray;
+    /// let shift_array = ShiftArray::new(vec![1, 2, 3]);
+    /// assert_eq!(shift_array.len(), 3);
+    /// ```
     fn len(&self) -> usize {
         self.lst.len() - self.start
     }
