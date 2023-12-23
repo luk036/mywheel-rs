@@ -302,6 +302,7 @@ mod tests {
     #[test]
     fn test_repeat_array() {
         let arr: RepeatArray<i32> = RepeatArray::new(1, 10);
+        assert_eq!(arr.len(), 10);
         assert_eq!(arr[4], 1);
         for i in arr {
             assert_eq!(i, 1);
@@ -313,6 +314,12 @@ mod tests {
         let mut a = ShiftArray::new(vec![2, 3, 5, 7, 11]);
         a.set_start(5);
         assert_eq!(a[6], 3);
+        assert_eq!(a.len(), 5);
+        a[6] = 13;
+        assert_eq!(a[6], 13);
+        for v in a.clone() {
+            assert_ne!(v, 4)
+        }
         for (i, v) in a.items() {
             println!("{}: {}", i, v);
         }

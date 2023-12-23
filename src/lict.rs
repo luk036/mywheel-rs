@@ -42,12 +42,34 @@ impl<T> Lict<T> {
     /// Returns:
     ///
     /// The `values` function is returning an iterator over the elements of the `lst` field of the struct.
+    /// 
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::lict::Lict;
+    ///
+    /// let list = Lict::new(vec![1, 2, 3]);
+    /// let mut cnt = 0;
+    /// for value in list.values() {
+    ///     cnt += 1;
+    ///     assert_eq!(value, &cnt);
+    /// }
+    /// ```
     pub fn values(&self) -> std::slice::Iter<'_, T> {
         self.lst.iter()
     }
 
     /// The function `items` returns an iterator that yields the index and reference to each element in
     /// the `lst` vector.
+    /// 
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::lict::Lict;
+    ///
+    /// let list = Lict::new(vec![1, 2, 3]);
+    /// assert_eq!(list.items().collect::<Vec<_>>(), vec![(0, &1), (1, &2), (2, &3)]);
+    /// ```
     pub fn items(&self) -> impl Iterator<Item = (usize, &T)> {
         self.lst.iter().enumerate()
     }
