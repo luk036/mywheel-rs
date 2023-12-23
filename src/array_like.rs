@@ -30,6 +30,8 @@ impl<T: Copy> RepeatArray<T> {
     /// use mywheel_rs::array_like::RepeatArray;
     /// let array = RepeatArray::new(1, 5);
     /// assert_eq!(array.len(), 5);
+    /// assert_eq!(array[0], 1);
+    /// assert_eq!(array[1], 1);
     /// ```
     pub fn new(value: T, size: usize) -> RepeatArray<T> {
         RepeatArray { value, size }
@@ -144,6 +146,9 @@ impl<T> ShiftArray<T> {
     ///
     /// let mut shift_array = ShiftArray::new(vec![1, 2, 3]);
     /// assert_eq!(shift_array.start, 0);
+    /// assert_eq!(shift_array.lst, vec![1, 2, 3]);
+    /// assert_eq!(shift_array.len(), 3);
+    /// assert_eq!(shift_array[0], 1);
     /// ```
     pub fn new(lst: Vec<T>) -> Self {
         Self { start: 0, lst }
@@ -165,10 +170,12 @@ impl<T> ShiftArray<T> {
     /// let mut shift_array = ShiftArray::new(vec![1, 2, 3]);
     /// shift_array.set_start(1);
     /// assert_eq!(shift_array.start, 1);
+    /// assert_eq!(shift_array.len(), 3);
     /// ```
     pub fn set_start(&mut self, start: usize) {
         self.start = start;
     }
+
 
     /// The `items` function returns an iterator that yields the index and reference to each element in
     /// the `lst` vector, with the index adjusted by the `start` value.
@@ -284,7 +291,7 @@ impl<T: Copy> std::iter::ExactSizeIterator for ShiftArray<T> {
     /// assert_eq!(shift_array.len(), 3);
     /// ```
     fn len(&self) -> usize {
-        self.lst.len() - self.start
+        self.lst.len()
     }
 }
 
