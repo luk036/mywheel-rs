@@ -522,6 +522,17 @@ mod tests {
         assert!(a.is_empty());
         assert!(b.is_empty());
         assert_ne!(a, b);
+
+        assert_eq!(a.data, 3);
+        assert_eq!(b.data, 0);
+        a.data = 5;
+        b.data = 5;
+        assert_ne!(a, b);
+        assert_eq!(a.next, a.prev);
+        assert!(std::ptr::eq(a.next, &a));
+        assert!(a.is_locked());
+        a.lock();
+        assert!(a.is_locked());
     }
 
     #[test]
@@ -532,8 +543,44 @@ mod tests {
         assert_eq!(a.head.data, 3);
         assert_eq!(a.head.next, a.head.prev);
 
-        let mut b = Dllink::new(3);
+        let mut b = Dllink::new(4);
         a.append(&mut b);
+        let c = a.pop();
+        assert_eq!(c, &b);
+        assert!(a.is_empty());
+        a.clear();
+        assert!(a.is_empty());
+        a.appendleft(&mut b);
         assert!(!a.is_empty());
+        a.clear();
+        assert!(a.is_empty());
+    }
+
+    #[test]
+    fn test_dllist2() {
+        let mut l1 = Dllist::new(99);
+        let mut l2 = Dllist::new(99);
+        let mut d = Dllink::new(1);
+        let mut e = Dllink::new(2);
+        let mut f = Dllink::new(3);
+
+        l1.appendleft(&mut e);
+        assert!(!l1.is_empty());
+
+        l1.appendleft(&mut f);
+        assert!(!l1.is_empty());
+        l1.append(&mut d);
+
+        l2.append(l1.pop());
+        l2.append(l1.popleft());
+        assert!(!l1.is_empty());
+        e.detach();
+        // assert!(l1.is_empty());
+
+        // let mut count = 0;
+        // for _n in l2.iter_mut() {
+        //     count += 1;
+        // }
+        // assert_eq!(count, 2);        
     }
 }
