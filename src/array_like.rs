@@ -176,7 +176,6 @@ impl<T> ShiftArray<T> {
         self.start = start;
     }
 
-
     /// The `items` function returns an iterator that yields the index and reference to each element in
     /// the `lst` vector, with the index adjusted by the `start` value.
     ///

@@ -42,7 +42,7 @@ impl<T> Lict<T> {
     /// Returns:
     ///
     /// The `values` function is returning an iterator over the elements of the `lst` field of the struct.
-    /// 
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -61,7 +61,7 @@ impl<T> Lict<T> {
 
     /// The function `items` returns an iterator that yields the index and reference to each element in
     /// the `lst` vector.
-    /// 
+    ///
     /// # Examples
     ///
     /// ```rust
