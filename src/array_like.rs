@@ -317,8 +317,10 @@ mod tests {
         assert_eq!(a.len(), 5);
         a[6] = 13;
         assert_eq!(a[6], 13);
+        let mut cnt = 5;
         for v in a.clone() {
-            assert_ne!(v, 4)
+            assert_eq!(v, a[cnt]);
+            cnt += 1;
         }
         for (i, v) in a.items() {
             println!("{}: {}", i, v);

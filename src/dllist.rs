@@ -346,7 +346,7 @@ impl<T> Dllist<T> {
         let mut res = Self {
             head: Dllink::new(data), // move occurred!
         };
-        res.clear(); // need to reset the pointers
+        res.head.clear(); // need to reset the pointers
         res
     }
 
@@ -506,5 +506,34 @@ impl<'a, T> Iterator for DllIterator<'a, T> {
             }
         }
         None
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_dllink() {
+        let mut a = Dllink::new(3);
+        let mut b = Dllink::<i32>::default();
+        a.clear();
+        b.clear();
+        assert!(a.is_empty());
+        assert!(b.is_empty());
+        assert_ne!(a, b);
+    }
+
+    #[test]
+    fn test_dllist() {
+        let mut a = Dllist::new(3);
+        a.clear();
+        assert!(a.is_empty());
+        assert_eq!(a.head.data, 3);
+        assert_eq!(a.head.next, a.head.prev);
+
+        let mut b = Dllink::new(3);
+        a.append(&mut b);
+        assert!(!a.is_empty());
     }
 }
