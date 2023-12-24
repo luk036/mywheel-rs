@@ -109,61 +109,55 @@ impl<T> Dllink<T> {
         self.prev = self as *mut Dllink<T>;
     }
 
-    /**
-    Lock the node (and don't append it to any list)
-
-    # Examples
-
-    ```rust
-    use mywheel_rs::dllist::Dllink;
-    let mut a = Dllink::new(3);
-    a.lock();
-
-    assert!(a.is_locked());
-    ```
-    */
+    /// Lock the node (and don't append it to any list)
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::dllist::Dllink;
+    /// let mut a = Dllink::new(3);
+    /// a.lock();
+    ///
+    /// assert!(a.is_locked());
+    /// ```
     #[inline]
     pub fn lock(&mut self) {
         // self.next = std::ptr::null_mut();
         self.next = self as *mut Dllink<T>;
     }
 
-    /**
-    whether the node is locked
-
-    # Examples
-
-    ```rust
-    use mywheel_rs::dllist::Dllink;
-    let mut a = Dllink::new(3);
-    a.lock();
-
-    assert!(a.is_locked());
-    ```
-    */
+    /// whether the node is locked
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::dllist::Dllink;
+    /// let mut a = Dllink::new(3);
+    /// a.lock();
+    ///
+    /// assert!(a.is_locked());
+    /// ```
     #[inline]
     pub fn is_locked(&self) -> bool {
         // self.next.is_null()
         std::ptr::eq(self.next, self)
     }
 
-    /**
-    Append the node to the front
-
-    # Examples
-
-    ```rust
-    use mywheel_rs::dllist::Dllink;
-    let mut a = Dllink::new(3);
-    let mut b = Dllink::new(3);
-    a.appendleft(&mut b);
-
-    assert!(!a.is_empty());
-    ```
-    */
+    /// Append the node to the front
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::dllist::Dllink;
+    /// let mut a = Dllink::new(3);
+    /// let mut b = Dllink::new(3);
+    /// a.appendleft(&mut b);
+    ///
+    /// assert!(!a.is_empty());
+    /// ```
     #[inline]
     pub fn appendleft(&mut self, node: &mut Dllink<T>) {
-        node.next = self.next;
+        node.next = self.next as *mut Dllink<T>;
         unsafe {
             (*self.next).prev = node as *mut Dllink<T>;
         }
@@ -171,23 +165,21 @@ impl<T> Dllink<T> {
         node.prev = self as *mut Dllink<T>;
     }
 
-    /**
-    Append the node to the back
-
-    # Examples
-
-    ```rust
-    use mywheel_rs::dllist::Dllink;
-    let mut a = Dllink::new(3);
-    let mut b = Dllink::new(3);
-    a.append(&mut b);
-
-    assert!(!a.is_empty());
-    ```
-    */
+    /// Append the node to the back
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::dllist::Dllink;
+    /// let mut a = Dllink::new(3);
+    /// let mut b = Dllink::new(3);
+    /// a.append(&mut b);
+    ///
+    /// assert!(!a.is_empty());
+    /// ```
     #[inline]
     pub fn append(&mut self, node: &mut Dllink<T>) {
-        node.prev = self.prev;
+        node.prev = self.prev as *mut Dllink<T>;
         unsafe {
             (*self.prev).next = node as *mut Dllink<T>;
         }
@@ -195,54 +187,50 @@ impl<T> Dllink<T> {
         node.next = self as *mut Dllink<T>;
     }
 
-    /**
-    Pop a node from the front
-
-    Precondition: list is not empty
-
-    # Examples
-
-    ```rust
-    use mywheel_rs::dllist::Dllink;
-    let mut a = Dllink::new(3);
-    let mut b = Dllink::new(3);
-    a.appendleft(&mut b);
-    let d = a.popleft();
-
-    assert_eq!(b, *d);
-    ```
-    */
+    /// Pop a node from the front
+    ///
+    /// Precondition: list is not empty
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::dllist::Dllink;
+    /// let mut a = Dllink::new(3);
+    /// let mut b = Dllink::new(3);
+    /// a.appendleft(&mut b);
+    /// let d = a.popleft();
+    ///
+    /// assert_eq!(b, *d);
+    /// ```
     #[inline]
     pub fn popleft(&mut self) -> &mut Dllink<T> {
         let res = self.next;
         unsafe {
-            self.next = (*res).next;
+            self.next = (*res).next as *mut Dllink<T>;
             (*self.next).prev = self as *mut Dllink<T>;
             &mut *res
         }
     }
 
-    /**
-    Pop a node from the back
-
-    Precondition: list is not empty
-
-    # Examples
-
-    ```rust
-    use mywheel_rs::dllist::Dllink;
-    let mut a = Dllink::new(3);
-    let mut b = Dllink::new(3);
-    a.append(&mut b);
-    let d = a.pop();
-
-    assert_eq!(b, *d);
-    ```
-    */
+    /// Pop a node from the back
+    ///
+    /// Precondition: list is not empty
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::dllist::Dllink;
+    /// let mut a = Dllink::new(3);
+    /// let mut b = Dllink::new(3);
+    /// a.append(&mut b);
+    /// let d = a.pop();
+    ///
+    /// assert_eq!(b, *d);
+    /// ```
     pub fn pop(&mut self) -> &mut Dllink<T> {
         let res = self.prev;
         unsafe {
-            self.prev = (*res).prev;
+            self.prev = (*res).prev as *mut Dllink<T>;
             (*self.prev).next = self as *mut Dllink<T>;
             &mut *res
         }
@@ -337,9 +325,11 @@ impl<T> Dllist<T> {
     ///
     /// ```rust
     /// use mywheel_rs::dllist::Dllist;
-    /// let a = Dllist::new(3);
+    /// let mut a = Dllist::new(3);
+    /// a.clear();
     ///
     /// assert_eq!(a.head.data, 3);
+    /// assert!(a.head.is_empty());
     /// ```
     #[inline]
     pub fn new(data: T) -> Self {
@@ -430,6 +420,7 @@ impl<T> Dllist<T> {
     /// let d = a.popleft();
     ///
     /// assert_eq!(b, *d);
+    /// assert!(a.is_empty());
     /// ```
     #[inline]
     pub fn popleft(&mut self) -> &mut Dllink<T> {
