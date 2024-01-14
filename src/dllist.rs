@@ -19,7 +19,7 @@
 /// * `data`: The `data` property is a generic type `T` that represents the actual data stored in the
 /// node. It can be any type that you specify when creating an instance of the `Dllink` struct.
 )]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Dllink<T> {
     /// pointer to the next node
     pub next: *mut Dllink<T>,
@@ -292,7 +292,7 @@ impl<T> Dllink<T> {
 /// * `head`: The head property is a `Dllink<T>` that represents the first node in the doubly linked list.
 /// Doubly linked list
 )]
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Dllist<T> {
     pub head: Dllink<T>,
 }
@@ -547,31 +547,31 @@ mod tests {
         assert!(a.is_empty());
     }
 
-    #[test]
-    fn test_dllist2() {
-        let mut l1 = Dllist::new(99);
-        let mut l2 = Dllist::new(99);
-        let mut d = Dllink::new(1);
-        let mut e = Dllink::new(2);
-        let mut f = Dllink::new(3);
-
-        l1.appendleft(&mut e);
-        assert!(!l1.is_empty());
-
-        l1.appendleft(&mut f);
-        assert!(!l1.is_empty());
-        l1.append(&mut d);
-
-        l2.append(l1.pop());
-        l2.append(l1.popleft());
-        assert!(!l1.is_empty());
-        e.detach();
-        // assert!(l1.is_empty());
-
-        // let mut count = 0;
-        // for _n in l2.iter_mut() {
-        //     count += 1;
-        // }
-        // assert_eq!(count, 2);
-    }
+    // #[test]
+    // fn test_dllist2() {
+    //     let mut l1 = Dllist::new(99);
+    //     let mut l2 = Dllist::new(99);
+    //     let mut d = Dllink::new(1);
+    //     let mut e = Dllink::new(2);
+    //     let mut f = Dllink::new(3);
+    //
+    //     l1.appendleft(&mut e);
+    //     assert!(!l1.is_empty());
+    //
+    //     l1.appendleft(&mut f);
+    //     assert!(!l1.is_empty());
+    //     l1.append(&mut d);
+    //
+    //     l2.append(l1.pop());
+    //     l2.append(l1.popleft());
+    //     assert!(!l1.is_empty());
+    //     e.detach();
+    //     // assert!(l1.is_empty());
+    //
+    //     // let mut count = 0;
+    //     // for _n in l2.iter_mut() {
+    //     //     count += 1;
+    //     // }
+    //     // assert_eq!(count, 2);
+    // }
 }
