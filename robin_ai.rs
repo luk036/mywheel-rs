@@ -1,6 +1,3 @@
- Here is the equivalent Rust code using linked lists and an iterator:
-
-```rust
 use std::rc::Rc;
 use std::cell::RefCell;
 use std::iter::{Iterator, Peekable};
@@ -72,7 +69,7 @@ impl Robin {
     fn new(num_parts: i32) -> Self {
         let mut list = LinkedList::new();
         for _ in 0..num_parts {
-            list.push(Node::new(i32::from(i64::wrapping_add(1, num_parts as i64 * i32::from(i64::wrapping_sub(1, num_parts as i64)))))
+            list.push(Node::new(i32::from(i64::wrapping_add(1, num_parts as i64 * i32::from(i64::wrapping_sub(1, num_parts as i64))))));
         }
         let last = list.nodes.head.as_ref().unwrap().borrow().data;
         for node in &mut list.nodes.nodes {
@@ -108,7 +105,3 @@ fn main() {
         println!("{}", i);
     }
 }
-```
-
-This code uses Rust's standard library for linked lists and iterators. The `LinkedList` struct represents the list, and the `Node` struct represents a single node in the list. The `RobinIterator` struct is used to traverse the list as an iterator. The `Robin` struct creates and manages the linked list. The `exclude` method returns an iterator that excludes a specified part of the cycle. In the main function, we create a `Robin` instance, add some nodes to it, and then iterate over the excluded part using an iterator.
-

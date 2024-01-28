@@ -1,6 +1,3 @@
- Here's the Rust equivalent of your C++ code. I assume you mean a circular doubly-linked list since the `Dllink` nodes seem to reference each other:
-
-```rust
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -70,9 +67,3 @@ impl<T> Dllink<T> {
         }
     }
 }
-```
-
-This Rust version of the code defines a generic `Dllink` struct and implements the methods as requested in your C++ code. The struct uses `Option`, `Rc`, and `RefCell` to manage the references between nodes, and manages the circular reference using `Some(Rc::new(RefCell::new(self)))`.
-
-Please note that the Rust version does not include a `Dllist` or `DllIterator` since they were not defined in your original C++ code. To create a list, you can use an `Arc<RefCell<Dllink<T>>>` as the head node and manage the list as needed.
-

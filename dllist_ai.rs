@@ -1,6 +1,3 @@
- Rust does not have the same constructs as C++, such as templates or `#pragma once`. However, we can create a similar data structure using Rust's ownership and borrowing system. Here is an equivalent Rust implementation of your C++ code:
-
-```rust
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
@@ -67,9 +64,3 @@ impl<T> Dllist<T> {
         self.head.borrow_mut().appendleft(link);
     }
 }
-```
-
-This Rust implementation creates a `Dllink` struct that represents an element in the doubly linked list and provides methods for appending links to each other. The `Dllist` struct is used to store the head of the linked list, providing methods for creating a new empty list and appending elements to it. Note that this implementation doesn't include the iterator and begin/end functions since Rust has built-in support for iterators and looping through collections using the `iter()` method.
-
-Keep in mind that Rust uses ownership and borrowing rules, so you need to be careful when manipulating references or cloning data to avoid data races or memory leaks.
-
