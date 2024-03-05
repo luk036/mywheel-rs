@@ -1,6 +1,6 @@
 use std::rc::Rc;
 use std::cell::RefCell;
-use std::iter::{Iterator, Peekable};
+use std::iter::Iterator;
 
 #[derive(Debug)]
 struct Node {
@@ -43,23 +43,23 @@ impl<'a> Iterator for RobinIterator<'a> {
         match self.node.take() {
             Some(node) => {
                 let data = node.borrow().data;
-                self.node = node.borrow_mut().next.take();
+                self.node = node.borrow_mut().next.take().as_ref();
                 Some(data)
             }
             None => None,
         }
     }
 
-    fn peek(&mut self) -> Option<&Self::Item> {
-        self.node.as_ref().map(|n| &n.borrow().data)
-    }
+    // fn peek(&mut self) -> Option<&Self::Item> {
+    //     self.node.as_ref().map(|n| &n.borrow().data)
+    // }
 }
 
-impl<'a> Peekable<Self::Iterator> for RobinIterator<'a> {
-    fn peekable(self) -> Self {
-        Self { node: self.node }
-    }
-}
+// impl<'a> Peekable<Self::Iterator> for RobinIterator<'a> {
+//     fn peekable(self) -> Self {
+//         Self { node: self.node }
+//     }
+// }
 
 struct Robin {
     nodes: LinkedList,

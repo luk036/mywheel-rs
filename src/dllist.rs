@@ -204,7 +204,7 @@ impl<T> Dllink<T> {
     /// ```
     #[inline]
     pub fn popleft(&mut self) -> &mut Dllink<T> {
-        let res = self.next;
+        let res = self.next as *mut Dllink<T>;
         unsafe {
             self.next = (*res).next as *mut Dllink<T>;
             (*self.next).prev = self as *mut Dllink<T>;
@@ -228,7 +228,7 @@ impl<T> Dllink<T> {
     /// assert_eq!(b, *d);
     /// ```
     pub fn pop(&mut self) -> &mut Dllink<T> {
-        let res = self.prev;
+        let res = self.prev as *mut Dllink<T>;
         unsafe {
             self.prev = (*res).prev as *mut Dllink<T>;
             (*self.prev).next = self as *mut Dllink<T>;
@@ -250,11 +250,11 @@ impl<T> Dllink<T> {
     #[inline]
     pub fn detach(&mut self) {
         assert!(!self.is_locked());
-        let n = self.next;
-        let p = self.prev;
+        let n = self.next as *mut Dllink<T>;
+        let p = self.prev as *mut Dllink<T>;
         unsafe {
-            (*p).next = n;
-            (*n).prev = p;
+            (*p).next = n as *mut Dllink<T>;
+            (*n).prev = p as *mut Dllink<T>;
         }
     }
 }
@@ -352,8 +352,9 @@ impl<T> Dllist<T> {
     /// assert!(a.is_empty());
     /// ```
     #[inline]
-    pub fn is_empty(&self) -> bool {
-        self.head.is_empty()
+    pub fn is_empty(&mut self) -> bool {
+        // self.head.is_empty()
+        std::ptr::eq(self.head.next, &mut self.head as *mut Dllink<T>)
     }
 
     /// Reset the list
