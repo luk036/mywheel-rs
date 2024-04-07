@@ -157,7 +157,7 @@ impl<T> Dllink<T> {
     /// ```
     #[inline]
     pub fn appendleft(&mut self, node: &mut Dllink<T>) {
-        node.next = self.next as *mut Dllink<T>;
+        node.next = self.next;
         unsafe {
             (*self.next).prev = node as *mut Dllink<T>;
         }
@@ -179,7 +179,7 @@ impl<T> Dllink<T> {
     /// ```
     #[inline]
     pub fn append(&mut self, node: &mut Dllink<T>) {
-        node.prev = self.prev as *mut Dllink<T>;
+        node.prev = self.prev;
         unsafe {
             (*self.prev).next = node as *mut Dllink<T>;
         }
@@ -204,9 +204,9 @@ impl<T> Dllink<T> {
     /// ```
     #[inline]
     pub fn popleft(&mut self) -> &mut Dllink<T> {
-        let res = self.next as *mut Dllink<T>;
+        let res = self.next;
         unsafe {
-            self.next = (*res).next as *mut Dllink<T>;
+            self.next = (*res).next;
             (*self.next).prev = self as *mut Dllink<T>;
             &mut *res
         }
@@ -228,9 +228,9 @@ impl<T> Dllink<T> {
     /// assert_eq!(b, *d);
     /// ```
     pub fn pop(&mut self) -> &mut Dllink<T> {
-        let res = self.prev as *mut Dllink<T>;
+        let res = self.prev;
         unsafe {
-            self.prev = (*res).prev as *mut Dllink<T>;
+            self.prev = (*res).prev;
             (*self.prev).next = self as *mut Dllink<T>;
             &mut *res
         }
@@ -250,11 +250,11 @@ impl<T> Dllink<T> {
     #[inline]
     pub fn detach(&mut self) {
         assert!(!self.is_locked());
-        let n = self.next as *mut Dllink<T>;
-        let p = self.prev as *mut Dllink<T>;
+        let n = self.next;
+        let p = self.prev;
         unsafe {
-            (*p).next = n as *mut Dllink<T>;
-            (*n).prev = p as *mut Dllink<T>;
+            (*p).next = n;
+            (*n).prev = p;
         }
     }
 }
