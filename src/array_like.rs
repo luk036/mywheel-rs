@@ -36,6 +36,10 @@ impl<T: Copy> RepeatArray<T> {
     pub fn new(value: T, size: usize) -> RepeatArray<T> {
         RepeatArray { value, size }
     }
+
+    pub fn get(&self, _index: usize) -> T {
+        self.value
+    }
 }
 
 impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
@@ -323,6 +327,39 @@ mod tests {
         }
         for (i, v) in a.items() {
             println!("{}: {}", i, v);
+        }
+    }
+
+    #[test]
+    fn test_repeat_array2() {
+        let repeat_array: RepeatArray<i32> = RepeatArray::new(1, 5);
+        assert_eq!(repeat_array.value, 1);
+        assert_eq!(repeat_array.size, 5);
+        assert_eq!(repeat_array[0], 1);
+        assert_eq!(repeat_array[1], 1);
+        assert_eq!(repeat_array[2], 1);
+        assert_eq!(repeat_array[3], 1);
+        assert_eq!(repeat_array[4], 1);
+        assert_eq!(repeat_array.get(0), 1);
+        assert_eq!(repeat_array.get(1), 1);
+        assert_eq!(repeat_array.get(2), 1);
+        assert_eq!(repeat_array.get(3), 1);
+        assert_eq!(repeat_array.get(4), 1);
+        for i in repeat_array {
+            assert_eq!(i, 1);
+        }
+    }
+
+    #[test]
+    fn test_shift_array2() {
+        let mut shift_array: ShiftArray<i32> = ShiftArray::new(vec![1, 2, 3, 4, 5]);
+        shift_array.set_start(3);
+        assert_eq!(shift_array[6], 4);
+        assert_eq!(shift_array[7], 5);
+        shift_array[6] = 8;
+        assert_eq!(shift_array[6], 8);
+        for (i, v) in shift_array.items() {
+            assert_eq!(v, &shift_array[i]);
         }
     }
 }
