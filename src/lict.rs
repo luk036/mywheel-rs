@@ -32,8 +32,8 @@ impl<T> Lict<T> {
     #[inline]
     pub fn new(lst: Vec<T>) -> Self {
         // let len = lst.len();
-        Self { 
-            // rng: 0..len, 
+        Self {
+            // rng: 0..len,
             lst,
         }
     }
