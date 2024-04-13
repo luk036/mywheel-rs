@@ -1,9 +1,9 @@
 [package]
 name = "mywheel-rs"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Wai-Shing Luk <luk036@gmail.com>"]
 edition = "2021"
-description = "Reinventing my my wheel"
+description = "Reinventing my wheel"
 readme = "README.md"
 homepage = "https://luk036.github.io/mywheel-rs/"
 repository = "https://github.com/luk036/mywheel-rs"
