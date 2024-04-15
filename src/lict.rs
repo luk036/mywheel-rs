@@ -55,6 +55,11 @@ impl<T> Lict<T> {
         self.lst.len()
     }
 
+    #[inline]
+    pub fn is_empty(&self) -> bool {
+        self.lst.is_empty()
+    }
+
     /// The `values` function returns an iterator over the values in a list.
     ///
     /// Returns:
