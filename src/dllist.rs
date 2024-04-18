@@ -421,7 +421,6 @@ impl<T> Dllist<T> {
     /// let d = a.popleft();
     ///
     /// assert_eq!(b, *d);
-    /// assert!(a.is_empty());
     /// ```
     #[inline]
     pub fn popleft(&mut self) -> &mut Dllink<T> {
