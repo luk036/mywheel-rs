@@ -429,7 +429,9 @@ impl<T> Dllist<T> {
     #[inline]
     pub fn popleft(&mut self) -> *mut Dllink<T> {
         let res = self.head.next;
-        unsafe { (*res).detach(); }
+        unsafe {
+            (*res).detach();
+        }
         res
     }
 
@@ -451,7 +453,9 @@ impl<T> Dllist<T> {
     #[inline]
     pub fn pop(&mut self) -> *mut Dllink<T> {
         let res = self.head.prev;
-        unsafe { (*res).detach(); }
+        unsafe {
+            (*res).detach();
+        }
         res
     }
 }
@@ -566,7 +570,7 @@ mod tests {
         l1.clear();
         assert!(l1.is_empty());
 
-        l1.appendleft(& mut e);
+        l1.appendleft(&mut e);
         assert!(!l1.is_empty());
 
         l1.appendleft(&mut f);
@@ -574,11 +578,15 @@ mod tests {
         l1.append(&mut d);
 
         l2.clear();
-        unsafe { l2.append(&mut *l1.pop()); }
-        unsafe { l2.append(&mut *l1.popleft()); }
+        unsafe {
+            l2.append(&mut *l1.pop());
+        }
+        unsafe {
+            l2.append(&mut *l1.popleft());
+        }
         assert!(!l1.is_empty());
         e.detach();
-        assert!(l1.is_empty());    
+        assert!(l1.is_empty());
     }
 
     #[test]
