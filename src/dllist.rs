@@ -45,14 +45,13 @@ impl<T: Default> Default for Dllink<T> {
     ///
     /// assert_eq!(a.data, 0);
     /// ```
+    #[inline]
     fn default() -> Self {
-        let mut res = Self {
+        Self {
             next: std::ptr::null_mut(),
             prev: std::ptr::null_mut(),
             data: T::default(),
-        };
-        res.clear();
-        res
+        }
     }
 }
 
@@ -67,14 +66,13 @@ impl<T> Dllink<T> {
     ///
     /// assert_eq!(a.data, 3);
     /// ```
+    #[inline]
     pub fn new(data: T) -> Self {
-        let mut res = Self {
+        Self {
             next: std::ptr::null_mut(),
             prev: std::ptr::null_mut(),
             data,
-        };
-        res.clear();
-        res
+        }
     }
 
     /// Whether the list is empty
@@ -151,6 +149,7 @@ impl<T> Dllink<T> {
     /// use mywheel_rs::dllist::Dllink;
     /// let mut a = Dllink::new(3);
     /// let mut b = Dllink::new(3);
+    /// a.clear();
     /// a.appendleft(&mut b);
     ///
     /// assert!(!a.is_empty());
@@ -173,6 +172,7 @@ impl<T> Dllink<T> {
     /// use mywheel_rs::dllist::Dllink;
     /// let mut a = Dllink::new(3);
     /// let mut b = Dllink::new(3);
+    /// a.clear();
     /// a.append(&mut b);
     ///
     /// assert!(!a.is_empty());
@@ -187,64 +187,34 @@ impl<T> Dllink<T> {
         node.next = self as *mut Dllink<T>;
     }
 
-    /// Pop a node from the front
-    ///
-    /// Precondition: list is not empty
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use mywheel_rs::dllist::Dllink;
-    /// let mut a = Dllink::new(3);
-    /// let mut b = Dllink::new(3);
-    /// a.appendleft(&mut b);
-    /// let d = a.popleft();
-    /// assert!(std::ptr::eq(&mut b as *mut Dllink<i32>, d));
-    /// ```
-    #[inline]
-    pub fn popleft(&mut self) -> *mut Dllink<T> {
-        let res = self.next;
-        unsafe {
-            self.next = (*res).next;
-            (*self.next).prev = self as *mut Dllink<T>;
-        }
-        res
-    }
-
-    /// Pop a node from the back
-    ///
-    /// Precondition: list is not empty
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use mywheel_rs::dllist::Dllink;
-    /// let mut a = Dllink::new(3);
-    /// let mut b = Dllink::new(3);
-    /// a.append(&mut b);
-    /// let d = a.pop();
-    /// assert!(std::ptr::eq(&mut b as *mut Dllink<i32>, d));
-    /// ```
-    pub fn pop(&mut self) -> *mut Dllink<T> {
-        let res = self.prev;
-        unsafe {
-            self.prev = (*res).prev;
-            (*self.prev).next = self as *mut Dllink<T>;
-        }
-        res
-    }
-
+    #[doc = svgbobdoc::transform!(
     /// Detach from a list
     ///
+    /// ```svgbob
+    ///                     .---------------.
+    ///         +--------+  |   +--------+  |   +--------+
+    ///       ->| {c}  *-|--'   | {c}  *-|- `-->| {c}  *-|-
+    ///        -|-*      |<-.  -|-*      |  .---|-*      |<-
+    ///         +--------+  |   +--------+  |   +--------+
+    ///                     `---------------'
+    ///
+    /// # Legend:
+    /// c = {
+    ///     fill: papayawhip;
+    /// }
+    /// ```
+    ///
     /// # Examples
     ///
     /// ```rust
     /// use mywheel_rs::dllist::Dllink;
     /// let mut a = Dllink::new(3);
     /// let mut b = Dllink::new(3);
+    /// a.clear();
     /// a.append(&mut b);
     /// b.detach();
     /// ```
+    )]
     #[inline]
     pub fn detach(&mut self) {
         assert!(!self.is_locked());
@@ -308,11 +278,9 @@ impl<T: Default> Default for Dllist<T> {
     ///  ```
     #[inline]
     fn default() -> Self {
-        let mut res = Self {
+        Self {
             head: Dllink::<T>::default(), // move occurred!
-        };
-        res.head.clear(); // need to reset the pointers
-        res
+        }
     }
 }
 
@@ -331,14 +299,27 @@ impl<T> Dllist<T> {
     /// ```
     #[inline]
     pub fn new(data: T) -> Self {
-        let mut res = Self {
+        Self {
             head: Dllink::new(data), // move occurred!
-        };
-        res.head.clear(); // need to reset the pointers
-        res
+        }
     }
 
+    #[doc = svgbobdoc::transform!(
     /// Whether the list is empty
+    ///
+    /// ```svgbob
+    ///      .-------------.
+    ///      |  +--------+  )
+    ///      `->| head *-|-'
+    ///       .-|-* {a}  |<-.
+    ///      (  +--------+  |
+    ///       `-------------'
+    ///
+    /// # Legend:
+    /// a = {
+    ///     fill: lightblue;
+    /// }
+    /// ```
     ///
     /// # Examples
     ///
@@ -349,6 +330,7 @@ impl<T> Dllist<T> {
     ///
     /// assert!(a.is_empty());
     /// ```
+    )]
     #[inline]
     pub fn is_empty(&mut self) -> bool {
         // self.head.is_empty()
@@ -368,7 +350,7 @@ impl<T> Dllist<T> {
     /// ```
     #[inline]
     pub fn clear(&mut self) {
-        self.head.clear()
+        self.head.clear();
     }
 
     /// Append the node to the front
@@ -378,6 +360,7 @@ impl<T> Dllist<T> {
     /// ```rust
     /// use mywheel_rs::dllist::{Dllist, Dllink};
     /// let mut a = Dllist::new(3);
+    /// a.clear();
     /// let mut b = Dllink::new(3);
     /// a.appendleft(&mut b);
     ///
@@ -395,6 +378,7 @@ impl<T> Dllist<T> {
     /// ```rust
     /// use mywheel_rs::dllist::{Dllist, Dllink};
     /// let mut a = Dllist::new(3);
+    /// a.clear();
     /// let mut b = Dllink::new(3);
     /// a.appendleft(&mut b);
     ///
@@ -405,9 +389,27 @@ impl<T> Dllist<T> {
         self.head.append(node);
     }
 
+    #[doc = svgbobdoc::transform!(
     /// Pop a node from the front
     ///
     /// Precondition: list is not empty
+    ///
+    /// ```svgbob
+    ///                     .---------------.
+    ///         +--------+  |   +--------+  |   +--------+           +--------+      +--------+
+    ///       ->| head *-|--'   | {c}  *-|- `-->| {c}  *-|--- ... -->| {c}  *-|----->| {c}  *-|-
+    ///        -|-* {a}  |<-.  -|-*      |  .---|-*      |<-- ... ---|-*      |<-----|-*      |<-
+    ///         +--------+  |   +--------+  |   +--------+           +--------+      +--------+
+    ///                     `---------------'
+    ///
+    /// # Legend:
+    /// a = {
+    ///     fill: lightblue;
+    /// }
+    /// c = {
+    ///     fill: papayawhip;
+    /// }
+    /// ```
     ///
     /// # Examples
     ///
@@ -423,9 +425,12 @@ impl<T> Dllist<T> {
     /// assert!(a.is_empty());
     /// assert!(std::ptr::eq(&mut b as *mut Dllink<i32>, d));
     /// ```
+    )]
     #[inline]
     pub fn popleft(&mut self) -> *mut Dllink<T> {
-        self.head.popleft()
+        let res = self.head.next;
+        unsafe { (*res).detach(); }
+        res
     }
 
     /// Pop a node from the back
@@ -438,13 +443,16 @@ impl<T> Dllist<T> {
     /// use mywheel_rs::dllist::{Dllist, Dllink};
     /// let mut a = Dllist::new(0);
     /// let mut b = Dllink::new(3);
+    /// a.clear();
     /// a.append(&mut b);
     /// let d = a.pop();
     /// assert!(std::ptr::eq(&mut b as *mut Dllink<i32>, d));
     /// ```
     #[inline]
     pub fn pop(&mut self) -> *mut Dllink<T> {
-        self.head.pop()
+        let res = self.head.prev;
+        unsafe { (*res).detach(); }
+        res
     }
 }
 
@@ -466,6 +474,7 @@ impl<'a, T> DllIterator<'a, T> {
     /// ```rust
     /// use mywheel_rs::dllist::{Dllink, DllIterator};
     /// let mut b = Dllink::new(3);
+    /// b.clear();
     /// let it = DllIterator::new(&mut b);
     /// ```
     #[inline]
@@ -539,8 +548,6 @@ mod tests {
         let c = a.pop();
         assert_eq!(c, &mut b as *mut Dllink<i32>);
         assert!(a.is_empty());
-        a.clear();
-        assert!(a.is_empty());
         a.appendleft(&mut b);
         assert!(!a.is_empty());
         a.clear();
@@ -551,6 +558,7 @@ mod tests {
     fn test_dllist2() {
         let mut l1 = Dllist::new(99);
         let mut l2 = Dllist::new(99);
+
         let mut d = Dllink::new(1);
         let mut e = Dllink::new(2);
         let mut f = Dllink::new(3);
@@ -564,7 +572,8 @@ mod tests {
         l1.appendleft(&mut f);
         assert!(!l1.is_empty());
         l1.append(&mut d);
-    
+
+        l2.clear();
         unsafe { l2.append(&mut *l1.pop()); }
         unsafe { l2.append(&mut *l1.popleft()); }
         assert!(!l1.is_empty());
