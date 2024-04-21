@@ -75,21 +75,6 @@ impl<T> Dllink<T> {
         }
     }
 
-    /// Whether the list is empty
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use mywheel_rs::dllist::Dllink;
-    /// let mut a = Dllink::new(3);
-    /// a.clear();
-    /// assert!(a.is_empty());
-    /// ```
-    #[inline]
-    pub fn is_empty(&self) -> bool {
-        std::ptr::eq(self.next, self)
-    }
-
     /// Reset the list
     ///
     /// # Examples
@@ -99,7 +84,7 @@ impl<T> Dllink<T> {
     /// let mut a = Dllink::new(3);
     /// a.clear();
     ///
-    /// assert!(a.is_empty());
+    /// assert!(a.is_locked());
     /// ```
     #[inline]
     pub fn clear(&mut self) {
@@ -150,41 +135,18 @@ impl<T> Dllink<T> {
     /// let mut a = Dllink::new(3);
     /// let mut b = Dllink::new(3);
     /// a.clear();
-    /// a.appendleft(&mut b);
+    /// a.attach(&mut b);
     ///
-    /// assert!(!a.is_empty());
+    /// assert!(!a.is_locked());
     /// ```
     #[inline]
-    pub fn appendleft(&mut self, node: &mut Dllink<T>) {
+    pub fn attach(&mut self, node: &mut Dllink<T>) {
         node.next = self.next;
         unsafe {
             (*self.next).prev = node as *mut Dllink<T>;
         }
         self.next = node as *mut Dllink<T>;
         node.prev = self as *mut Dllink<T>;
-    }
-
-    /// Append the node to the back
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use mywheel_rs::dllist::Dllink;
-    /// let mut a = Dllink::new(3);
-    /// let mut b = Dllink::new(3);
-    /// a.clear();
-    /// a.append(&mut b);
-    ///
-    /// assert!(!a.is_empty());
-    /// ```
-    #[inline]
-    pub fn append(&mut self, node: &mut Dllink<T>) {
-        node.prev = self.prev;
-        unsafe {
-            (*self.prev).next = node as *mut Dllink<T>;
-        }
-        self.prev = node as *mut Dllink<T>;
-        node.next = self as *mut Dllink<T>;
     }
 
     #[doc = svgbobdoc::transform!(
@@ -211,7 +173,7 @@ impl<T> Dllink<T> {
     /// let mut a = Dllink::new(3);
     /// let mut b = Dllink::new(3);
     /// a.clear();
-    /// a.append(&mut b);
+    /// a.attach(&mut b);
     /// b.detach();
     /// ```
     )]
@@ -295,7 +257,7 @@ impl<T> Dllist<T> {
     /// a.clear();
     ///
     /// assert_eq!(a.head.data, 3);
-    /// assert!(a.head.is_empty());
+    /// assert!(a.head.is_locked());
     /// ```
     #[inline]
     pub fn new(data: T) -> Self {
@@ -368,7 +330,7 @@ impl<T> Dllist<T> {
     /// ```
     #[inline]
     pub fn appendleft(&mut self, node: &mut Dllink<T>) {
-        self.head.appendleft(node);
+        self.head.attach(node);
     }
 
     /// Append the node to the back
@@ -380,13 +342,15 @@ impl<T> Dllist<T> {
     /// let mut a = Dllist::new(3);
     /// a.clear();
     /// let mut b = Dllink::new(3);
-    /// a.appendleft(&mut b);
+    /// a.append(&mut b);
     ///
     /// assert!(!a.is_empty());
     /// ```
     #[inline]
     pub fn append(&mut self, node: &mut Dllink<T>) {
-        self.head.append(node);
+        unsafe {
+            (*self.head.prev).attach(node);
+        }
     }
 
     #[doc = svgbobdoc::transform!(
@@ -523,8 +487,8 @@ mod tests {
         let mut b = Dllink::<i32>::default();
         a.clear();
         b.clear();
-        assert!(a.is_empty());
-        assert!(b.is_empty());
+        assert!(a.is_locked());
+        assert!(b.is_locked());
         assert_ne!(a, b);
 
         assert_eq!(a.data, 3);
