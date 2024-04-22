@@ -34,5 +34,5 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: 21b628e0-ce75-49c0-a52a-2d938d99916c
           slug: luk036/mywheel-rs
