@@ -228,9 +228,7 @@ impl<T: Default + Clone> BPQueue<T> {
     /// assert_eq!(v, 3);
     /// ```
     pub fn popleft(&mut self) -> (usize, T) {
-        let res = unsafe {
-            (*self.bucket[self.max].popleft()).data.clone()
-        };
+        let res = unsafe { (*self.bucket[self.max].popleft()).data.clone() };
         while self.bucket[self.max].is_empty() {
             self.max -= 1;
         }
@@ -385,10 +383,7 @@ impl<'a, T: Default> BPQueueIterator<'a, T> {
     pub fn new(bpq: &'a mut BPQueue<T>) -> Self {
         let curkey = bpq.max;
         // let curitem = (*bpq).bucket[bpq.max].iter_mut();
-        Self {
-            bpq,
-            curkey,
-        }
+        Self { bpq, curkey }
     }
 }
 
