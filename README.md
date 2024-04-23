@@ -5,7 +5,7 @@ Reinventing the wheel
 [![Crates.io](https://img.shields.io/crates/v/mywheel-rs.svg)](https://crates.io/crates/mywheel-rs)
 [![Docs.rs](https://docs.rs/mywheel-rs/badge.svg)](https://docs.rs/mywheel-rs)
 [![CI](https://github.com/luk036/mywheel-rs/workflows/CI/badge.svg)](https://github.com/luk036/mywheel-rs/actions)
-[![codecov](https://codecov.io/gh/luk036/mywheel-rs/graph/badge.svg?token=Hozpu4Kq0r)](https://codecov.io/gh/luk036/mywheel-rs)
+[![codecov](https://codecov.io/gh/luk036/mywheel-rs/branch/main/graph/badge.svg?token=Hozpu4Kq0r)](https://codecov.io/gh/luk036/mywheel-rs)
 
 ## Installation
 
