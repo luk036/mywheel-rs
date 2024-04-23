@@ -19,7 +19,7 @@
 /// * `data`: The `data` property is a generic type `T` that represents the actual data stored in the
 /// node. It can be any type that you specify when creating an instance of the `Dllink` struct.
 )]
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Dllink<T> {
     /// pointer to the next node
     pub next: *mut Dllink<T>,
@@ -222,7 +222,7 @@ impl<T> Dllink<T> {
 /// * `head`: The head property is a `Dllink<T>` that represents the first node in the doubly linked list.
 /// Doubly linked list
 )]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Dllist<T> {
     pub head: Dllink<T>,
 }

@@ -86,8 +86,7 @@ impl<T: Default + Clone> BPQueue<T> {
     /// use mywheel_rs::bpqueue::BPQueue;
     /// let bpq = BPQueue::<i32>::new(-3, 3);
     ///
-    /// assert!(!bpq.bucket[0].is_empty());
-    /// assert!(bpq.bucket[1].is_empty());
+    /// assert!(bpq.is_empty());
     /// ```
     pub fn new(a: i32, b: i32) -> Self {
         assert!(a <= b);
@@ -101,7 +100,7 @@ impl<T: Default + Clone> BPQueue<T> {
         for lst in res.bucket.iter_mut() {
             lst.clear();
         }
-        res.sentinel.clear();
+        // res.sentinel.clear();
         res.bucket[0].append(&mut res.sentinel);
         res
     }
@@ -189,6 +188,29 @@ impl<T: Default + Clone> BPQueue<T> {
         self.bucket[it.data.0].append(it);
     }
 
+    /// Append item with external key
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::bpqueue::BPQueue;
+    /// use mywheel_rs::dllist::Dllink;
+    ///
+    /// let mut bpq = BPQueue::<i32>::new(-3, 3);
+    /// let mut a = Dllink::<(usize, i32)>::new((0, 3));
+    /// bpq.appendleft(&mut a, 0);
+    ///
+    /// assert!(!bpq.is_empty());
+    /// ```
+    pub fn appendleft(&mut self, it: &mut Dllink<(usize, T)>, k: i32) {
+        assert!(k > self.offset);
+        it.data.0 = (k - self.offset) as usize;
+        if self.max < it.data.0 {
+            self.max = it.data.0;
+        }
+        self.bucket[it.data.0].appendleft(it);
+    }
+
     /// Pop node with the highest key
     ///
     /// # Examples
@@ -206,7 +228,9 @@ impl<T: Default + Clone> BPQueue<T> {
     /// assert_eq!(v, 3);
     /// ```
     pub fn popleft(&mut self) -> (usize, T) {
-        let res = self.bucket[self.max].popleft().data.clone();
+        let res = unsafe {
+            (*self.bucket[self.max].popleft()).data.clone()
+        };
         while self.bucket[self.max].is_empty() {
             self.max -= 1;
         }
@@ -294,7 +318,7 @@ impl<T: Default + Clone> BPQueue<T> {
         it.data.0 += delta;
         assert!(it.data.0 > 0);
         assert!(it.data.0 <= self.high);
-        self.bucket[it.data.0].append(it); // FIFO
+        self.bucket[it.data.0].appendleft(it); // LIFO
         if self.max < it.data.0 {
             self.max = it.data.0;
         }
@@ -336,3 +360,58 @@ impl<T: Default + Clone> BPQueue<T> {
         // }
     }
 }
+
+/// BPQueue iterator
+///
+/// Traverse the list from the first item. Usually it is safe
+/// to attach/detach list items during the iterator is active.
+#[derive(Debug)]
+pub struct BPQueueIterator<'a, T> {
+    pub bpq: &'a mut BPQueue<T>,
+    pub curkey: usize,
+}
+
+impl<'a, T: Default> BPQueueIterator<'a, T> {
+    /// Construct a new DllIterator object
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::bpqueue::{BPQueue, BPQueueIterator};
+    /// let mut b = BPQueue::<i32>::new(-3, 3);
+    /// let it = BPQueueIterator::new(&mut b);
+    /// ```
+    #[inline]
+    pub fn new(bpq: &'a mut BPQueue<T>) -> Self {
+        let curkey = bpq.max;
+        // let curitem = (*bpq).bucket[bpq.max].iter_mut();
+        Self {
+            bpq,
+            curkey,
+        }
+    }
+}
+
+impl<T: Default> BPQueue<T> {
+    /// Return a new DllIterator object
+    pub fn iter_mut(&mut self) -> BPQueueIterator<T> {
+        BPQueueIterator::new(self)
+    }
+}
+
+// impl<'a, T> Iterator for BPQueueIterator<'a, T> {
+//     type Item = &'a mut Dllink<T>;
+//
+//     /// Return a next item
+//     fn next(&mut self) -> Option<Self::Item> {
+//         if self.cur as *const Dllink<T> != self.link as *const Dllink<T> {
+//             let res = self.cur;
+//             unsafe {
+//                 self.cur = (*self.cur).next;
+//                 return Some(&mut *res);
+//             }
+//         }
+//         None
+//     }
+// }
+//
