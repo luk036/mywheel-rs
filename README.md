@@ -1,4 +1,4 @@
-# ☸  mywheel-rs
+# 🛞 mywheel-rs
 
 Reinventing the wheel
 
