@@ -431,7 +431,6 @@ impl<T: Default> BPQueue<T> {
 // }
 //
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -442,11 +441,11 @@ mod tests {
         let mut a = Dllink::<(usize, i32)>::new((0, 3));
         bpq.append(&mut a, 0);
         assert_eq!(bpq.get_max(), 0);
-        assert_eq!(bpq.is_empty(), false);
+        assert!(!bpq.is_empty());
         bpq.set_key(&mut a, 0);
         assert_eq!(a.data.0, 4);
         bpq.popleft();
-        assert_eq!(bpq.is_empty(), true);
+        assert!(bpq.is_empty());
         assert_eq!(bpq.get_max(), -4);
     }
 
@@ -468,38 +467,38 @@ mod tests {
         assert_eq!(bpq.get_max(), -4);
         bpq.clear();
         assert_eq!(bpq.get_max(), -4);
-    
+
         let mut c = Dllink::<(usize, i32)>::new((3, 2));
         let mut waiting_list = Dllist::<(usize, i32)>::new((99, 98));
         waiting_list.clear();
-        waiting_list.append(&mut c);  // will unlock c
-        bpq.modify_key(&mut c, -1);  // c is not yet in bpq
-        assert_eq!(bpq.is_empty(), false);
+        waiting_list.append(&mut c); // will unlock c
+        bpq.modify_key(&mut c, -1); // c is not yet in bpq
+        assert!(!bpq.is_empty());
         assert_eq!(bpq.get_max(), -2);
-        assert_eq!(waiting_list.is_empty(), true);
+        assert!(waiting_list.is_empty());
     }
 
     #[test]
     fn test_bpqueue3() {
         // assert!(BPQueue::<i32>::new(-10.4, 10.4).is_err());
-    
+
         let mut bpq1 = BPQueue::<i32>::new(-10, 10);
         let mut bpq2 = BPQueue::<i32>::new(-10, 10);
-    
+
         assert_eq!(bpq1.get_max(), -11);
-    
+
         let mut d = Dllink::<(usize, i32)>::new((0, 0));
         let mut e = Dllink::<(usize, i32)>::new((0, 1));
         let mut f = Dllink::<(usize, i32)>::new((0, 2));
-    
+
         assert_eq!(d.data.0, 0);
-    
+
         bpq1.append(&mut e, 3);
         bpq1.append(&mut f, -10);
         bpq1.append(&mut d, 5);
-    
+
         unsafe {
-            bpq2.append(&mut *bpq1.popleft(), -6);  // d
+            bpq2.append(&mut *bpq1.popleft(), -6); // d
             bpq2.append(&mut *bpq1.popleft(), 3);
             bpq2.append(&mut *bpq1.popleft(), 0);
         }
@@ -511,22 +510,22 @@ mod tests {
         assert_eq!(bpq2.get_max(), 6);
         bpq1.clear();
     }
-    
+
     #[test]
     fn test_bpqueue4() {
         let mut bpq = BPQueue::<i32>::new(-3, 3);
         let mut a = Dllink::<(usize, i32)>::new((0, 3));
         bpq.append(&mut a, 0);
-        bpq.modify_key(&mut a, 0);  // unchange
+        bpq.modify_key(&mut a, 0); // unchange
         assert_eq!(bpq.get_max(), 0);
-    
+
         bpq.modify_key(&mut a, -1);
         assert_eq!(bpq.get_max(), -1);
-    
+
         a.lock();
-        bpq.modify_key(&mut a, 1);  // unchange because it is locked
+        bpq.modify_key(&mut a, 1); // unchange because it is locked
         assert_eq!(bpq.get_max(), -1);
-    
+
         let mut b = Dllink::<(usize, i32)>::new((0, 8));
         bpq.append(&mut b, -3);
         bpq.modify_key(&mut b, 1);

@@ -205,11 +205,13 @@ mod tests {
         assert_eq!(a[2], 3);
         assert!(a.contains(3));
         assert_eq!(a.len(), 4);
-        assert_eq!(a.values().into_iter().collect::<Vec<&i32>>(), vec![&1, &4, &3, &6]);
-        assert_eq!(a.items().collect::<Vec<(usize, &i32)>>(), vec![(0, &1), (1, &4), (2, &3), (3, &6)]);
-        // assert_eq!(a.keys(), vec![0, 1, 2, 3]);    
+        assert_eq!(a.values().collect::<Vec<&i32>>(), vec![&1, &4, &3, &6]);
+        assert_eq!(
+            a.items().collect::<Vec<(usize, &i32)>>(),
+            vec![(0, &1), (1, &4), (2, &3), (3, &6)]
+        );
+        // assert_eq!(a.keys(), vec![0, 1, 2, 3]);
         a[2] = 7;
         assert_eq!(a[2], 7);
     }
 }
-
