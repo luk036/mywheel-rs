@@ -183,40 +183,6 @@ impl<T> std::ops::IndexMut<usize> for Lict<T> {
     }
 }
 
-// impl<T> std::iter::IntoIterator for Lict<T> {
-//     type Item = usize;
-//     type IntoIter = std::ops::Range<usize>;
-
-//     fn into_iter(self) -> Self::IntoIter {
-//         self.rng
-//     }
-// }
-
-// impl<T> std::iter::Iterator for Lict<T> {
-//     type Item = usize;
-
-//     /// The function `next` returns the next item from the random number generator.
-//     ///
-//     /// Returns:
-//     ///
-//     /// The `next` function is returning an `Option<Self::Item>`.
-//     #[inline]
-//     fn next(&mut self) -> Option<Self::Item> {
-//         self.rng.next()
-//     }
-// }
-
-// impl<T> std::iter::ExactSizeIterator for Lict<T> {
-//     /// The function returns the length of a given object.
-//     ///
-//     /// Returns:
-//     ///
-//     /// The `len` function is returning the length of the `rng` field of the struct.
-//     fn len(&self) -> usize {
-//         self.lst.len()
-//     }
-// }
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -232,24 +198,18 @@ mod tests {
         }
         assert!(a.contains(3));
     }
+
+    #[test]
+    fn test_lict2() {
+        let mut a = Lict::new(vec![1, 4, 3, 6]);
+        assert_eq!(a[2], 3);
+        assert!(a.contains(3));
+        assert_eq!(a.len(), 4);
+        assert_eq!(a.values().into_iter().collect::<Vec<&i32>>(), vec![&1, &4, &3, &6]);
+        assert_eq!(a.items().collect::<Vec<(usize, &i32)>>(), vec![(0, &1), (1, &4), (2, &3), (3, &6)]);
+        // assert_eq!(a.keys(), vec![0, 1, 2, 3]);    
+        a[2] = 7;
+        assert_eq!(a[2], 7);
+    }
 }
 
-// fn main() {
-//     let mut a = Lict::new(vec![0; 8]);
-//     for i in &mut a {
-//         a[i] = i * i;
-//     }
-//     for (i, v) in a.items() {
-//         println!("{}: {}", i, v);
-//     }
-//     println!("{}", a.contains(&3));
-
-//     let mut b = ShiftArray::new(vec![0; 8]);
-//     for i in 0..8 {
-//         b[i] = i * i;
-//     }
-//     for (i, v) in b.items() {
-//         println!("{}: {}", i, v);
-//     }
-//     println!("{}", b[3]);
-// }
