@@ -58,15 +58,15 @@ use crate::dllist::{Dllink, Dllist};
 /// 
 /// * `max`: The maximum number of elements that can be stored in the bounded priority queue.
 /// * `offset`: The `offset` property represents the lower bound of the integer keys in the bounded
-/// priority queue. It is of type `i32`, which means it can hold both positive and negative values. The
-/// offset is used to calculate the index of the bucket in the `bucket` array for a given key.
+///             priority queue. It is of type `i32`, which means it can hold both positive and negative values. The
+///             offset is used to calculate the index of the bucket in the `bucket` array for a given key.
 /// * `high`: The `high` property represents the highest priority level in the bounded priority queue.
-/// It indicates the index of the last bucket in the `bucket` array.
+///             It indicates the index of the last bucket in the `bucket` array.
 /// * `sentinel`: A doubly linked list node that serves as a sentinel or dummy node. It is used to
-/// reduce boundary checking during updates.
+///             reduce boundary checking during updates.
 /// * `bucket`: The `bucket` property is a vector of doubly-linked lists. Each doubly-linked list
-/// represents a priority level, with the index of the vector representing the priority value. The
-/// elements in the doubly-linked lists are tuples containing a priority value and a value of type `T`.
+///             represents a priority level, with the index of the vector representing the priority value. The
+///             elements in the doubly-linked lists are tuples containing a priority value and a value of type `T`.
 )]
 #[derive(Debug)]
 pub struct BPQueue<T> {

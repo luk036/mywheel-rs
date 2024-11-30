@@ -220,7 +220,7 @@ impl<T> Dllink<T> {
 /// Properties:
 /// 
 /// * `head`: The head property is a `Dllink<T>` that represents the first node in the doubly linked list.
-/// Doubly linked list
+///           Doubly linked list
 )]
 #[derive(Debug, Clone)]
 pub struct Dllist<T> {
