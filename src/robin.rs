@@ -63,7 +63,7 @@ impl Robin {
     }
 }
 
-impl<'a> Iterator for RobinIterator<'a> {
+impl Iterator for RobinIterator<'_> {
     type Item = u8;
 
     /// The `next` function returns the next item in a linked list if it exists, otherwise it returns
