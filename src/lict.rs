@@ -3,7 +3,7 @@
 /// Properties:
 ///
 /// * `lst`: The `lst` property is a vector that stores elements of type `T`. It is used to store the
-/// elements of the `Lict` struct.
+///          selements of the `Lict` struct.
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Lict<T> {
