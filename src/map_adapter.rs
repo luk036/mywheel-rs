@@ -1,17 +1,17 @@
-/// The `Lict` struct is a generic type in Rust that represents a list with a range and a vector.
+/// The `MapAdapter` struct is a generic type in Rust that represents a list with a range and a vector.
 ///
 /// Properties:
 ///
 /// * `lst`: The `lst` property is a vector that stores elements of type `T`. It is used to store the
-///          selements of the `Lict` struct.
+///          selements of the `MapAdapter` struct.
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Lict<T> {
+pub struct MapAdapter<T> {
     // pub rng: std::ops::Range<usize>,
     pub lst: Vec<T>,
 }
 
-impl<T> Lict<T> {
+impl<T> MapAdapter<T> {
     /// The function `new` creates a new instance of a struct with a range and a vector.
     ///
     /// Arguments:
@@ -25,9 +25,9 @@ impl<T> Lict<T> {
     /// # Examples
     ///
     /// ```
-    /// use mywheel_rs::lict::Lict;
+    /// use mywheel_rs::map_adapter::MapAdapter;
     ///
-    /// assert_eq!(Lict::new(vec![1, 2, 3]), Lict { lst: vec![1, 2, 3] });
+    /// assert_eq!(MapAdapter::new(vec![1, 2, 3]), MapAdapter { lst: vec![1, 2, 3] });
     /// ```
     #[inline]
     pub fn new(lst: Vec<T>) -> Self {
@@ -69,9 +69,9 @@ impl<T> Lict<T> {
     /// # Examples
     ///
     /// ```rust
-    /// use mywheel_rs::lict::Lict;
+    /// use mywheel_rs::map_adapter::MapAdapter;
     ///
-    /// let list = Lict::new(vec![1, 2, 3]);
+    /// let list = MapAdapter::new(vec![1, 2, 3]);
     /// let mut cnt = 0;
     /// for value in list.values() {
     ///     cnt += 1;
@@ -89,9 +89,9 @@ impl<T> Lict<T> {
     /// # Examples
     ///
     /// ```rust
-    /// use mywheel_rs::lict::Lict;
+    /// use mywheel_rs::map_adapter::MapAdapter;
     ///
-    /// let list = Lict::new(vec![1, 2, 3]);
+    /// let list = MapAdapter::new(vec![1, 2, 3]);
     /// assert_eq!(list.items().collect::<Vec<_>>(), vec![(0, &1), (1, &2), (2, &3)]);
     /// ```
     #[inline]
@@ -113,10 +113,10 @@ impl<T> Lict<T> {
     /// # Examples:
     ///
     /// ```
-    /// use mywheel_rs::lict::Lict;
+    /// use mywheel_rs::map_adapter::MapAdapter;
     ///
-    /// assert_eq!(Lict::new(vec![1, 2, 3]).contains(0), true);
-    /// assert_eq!(Lict::new(vec![1, 2, 3]).contains(3), false);
+    /// assert_eq!(MapAdapter::new(vec![1, 2, 3]).contains(0), true);
+    /// assert_eq!(MapAdapter::new(vec![1, 2, 3]).contains(3), false);
     /// ```
     #[inline]
     pub fn contains(&self, key: usize) -> bool {
@@ -124,7 +124,7 @@ impl<T> Lict<T> {
     }
 }
 
-impl<T> std::ops::Index<usize> for Lict<T> {
+impl<T> std::ops::Index<usize> for MapAdapter<T> {
     type Output = T;
 
     /// The `index` function returns a reference to an element in a list based on the given key.
@@ -143,11 +143,11 @@ impl<T> std::ops::Index<usize> for Lict<T> {
     /// # Examples
     ///
     /// ```
-    /// use mywheel_rs::lict::Lict;
+    /// use mywheel_rs::map_adapter::MapAdapter;
     ///
-    /// let lict = Lict::new(vec![1, 2, 3]);
-    /// assert_eq!(lict[0], 1);
-    /// assert_eq!(lict[1], 2);
+    /// let map_adapter = MapAdapter::new(vec![1, 2, 3]);
+    /// assert_eq!(map_adapter[0], 1);
+    /// assert_eq!(map_adapter[1], 2);
     /// ```
     #[inline]
     fn index(&self, key: usize) -> &Self::Output {
@@ -155,7 +155,7 @@ impl<T> std::ops::Index<usize> for Lict<T> {
     }
 }
 
-impl<T> std::ops::IndexMut<usize> for Lict<T> {
+impl<T> std::ops::IndexMut<usize> for MapAdapter<T> {
     /// The function `index_mut` returns a mutable reference to an element in a list based on the given
     /// key.
     ///
@@ -171,11 +171,11 @@ impl<T> std::ops::IndexMut<usize> for Lict<T> {
     /// # Examples
     ///
     /// ```
-    /// use mywheel_rs::lict::Lict;
+    /// use mywheel_rs::map_adapter::MapAdapter;
     ///
-    /// let mut lict = Lict::new(vec![1, 2, 3]);
-    /// lict[0] = 10;
-    /// assert_eq!(lict[0], 10);
+    /// let mut map_adapter = MapAdapter::new(vec![1, 2, 3]);
+    /// map_adapter[0] = 10;
+    /// assert_eq!(map_adapter[0], 10);
     /// ```
     #[inline]
     fn index_mut(&mut self, key: usize) -> &mut Self::Output {
@@ -188,8 +188,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_lict() {
-        let a = Lict::new(vec![0; 8]);
+    fn test_map_adapter() {
+        let a = MapAdapter::new(vec![0; 8]);
         // for i in &mut a {
         //     a[i] = i * i;
         // }
@@ -200,8 +200,8 @@ mod tests {
     }
 
     #[test]
-    fn test_lict2() {
-        let mut a = Lict::new(vec![1, 4, 3, 6]);
+    fn test_map_adapter2() {
+        let mut a = MapAdapter::new(vec![1, 4, 3, 6]);
         assert_eq!(a[2], 3);
         assert!(a.contains(3));
         assert_eq!(a.len(), 4);
