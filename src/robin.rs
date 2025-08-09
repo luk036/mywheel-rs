@@ -54,7 +54,7 @@ impl Robin {
     ///
     /// The `exclude` method returns a `RobinIterator` object.
     #[inline]
-    pub fn exclude(&self, from_part: u8) -> RobinIterator {
+    pub fn exclude(&self, from_part: u8) -> RobinIterator<'_> {
         RobinIterator {
             cycle: &self.cycle,
             cur: from_part,

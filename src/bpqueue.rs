@@ -409,7 +409,7 @@ impl<'a, T: Default> BPQueueIterator<'a, T> {
 
 impl<T: Default> BPQueue<T> {
     /// Return a new DllIterator object
-    pub fn iter_mut(&mut self) -> BPQueueIterator<T> {
+    pub fn iter_mut(&mut self) -> BPQueueIterator<'_, T> {
         BPQueueIterator::new(self)
     }
 }

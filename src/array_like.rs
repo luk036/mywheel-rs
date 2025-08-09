@@ -3,8 +3,7 @@
 ///
 /// Properties:
 ///
-/// * `value`: The `value` property is a generic type `T` that represents the value that will be
-///            repeated in the array.
+/// * `value`: The `value` property is a generic type `T` that represents the value that will be repeated in the array.
 /// * `size`: The `size` property represents the number of elements in the array.
 pub struct RepeatArray<T> {
     value: T,

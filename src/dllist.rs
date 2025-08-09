@@ -456,7 +456,7 @@ impl<'a, T> DllIterator<'a, T> {
 
 impl<T> Dllist<T> {
     /// Return a new DllIterator object
-    pub fn iter_mut(&mut self) -> DllIterator<T> {
+    pub fn iter_mut(&mut self) -> DllIterator<'_, T> {
         DllIterator::new(&mut self.head)
     }
 }
@@ -466,7 +466,7 @@ impl<'a, T> Iterator for DllIterator<'a, T> {
 
     /// Return a next item
     fn next(&mut self) -> Option<Self::Item> {
-        if self.cur as *const Dllink<T> != self.link as *const Dllink<T> {
+        if !std::ptr::eq(self.cur, self.link) {
             let res = self.cur;
             unsafe {
                 self.cur = (*self.cur).next;
@@ -570,5 +570,21 @@ mod tests {
             count += 1;
         }
         assert_eq!(count, 3);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_pop_from_empty_list() {
+        let mut a = Dllist::<i32>::new(0);
+        a.clear();
+        a.pop();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_popleft_from_empty_list() {
+        let mut a = Dllist::<i32>::new(0);
+        a.clear();
+        a.popleft();
     }
 }
