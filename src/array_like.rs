@@ -50,6 +50,10 @@ impl<T: Copy> RepeatArray<T> {
     pub fn len(&self) -> usize {
         self.size
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.size == 0
+    }
 }
 
 pub struct RepeatArrayIterator<T> {
@@ -196,6 +200,10 @@ impl<T> ShiftArray<T> {
 
     pub fn len(&self) -> usize {
         self.lst.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.lst.is_empty()
     }
 }
 
