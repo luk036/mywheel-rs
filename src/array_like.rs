@@ -17,7 +17,7 @@ impl<T: Copy> RepeatArray<T> {
     ///
     /// * `value`: The value parameter is the value that will be repeated in the array.
     /// * `size`: The `size` parameter represents the desired size of the `RepeatArray`. It specifies
-    ///           the number of elements that the `RepeatArray` should contain.
+    ///   the number of elements that the `RepeatArray` should contain.
     ///
     /// Returns:
     ///
@@ -88,7 +88,7 @@ impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
     /// Arguments:
     ///
     /// * `_index`: The `_index` parameter is of type `usize`, which represents an index value used to
-    ///             access elements in a collection or array.
+    ///   access elements in a collection or array.
     ///
     /// Returns:
     ///
@@ -113,9 +113,9 @@ impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
 /// Properties:
 ///
 /// * `start`: The `start` property represents the index of the first element in the `ShiftArray`. It
-///             indicates the starting point from which elements are accessed or shifted.
+///   indicates the starting point from which elements are accessed or shifted.
 /// * `lst`: The `lst` property is a vector that holds the elements of the `ShiftArray`. It is of type
-///             `Vec<T>`, where `T` is a generic type parameter that can be replaced with any type.
+///   `Vec<T>`, where `T` is a generic type parameter that can be replaced with any type.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ShiftArray<T> {
     pub start: usize,
@@ -154,8 +154,8 @@ impl<T> ShiftArray<T> {
     /// Arguments:
     ///
     /// * `start`: The `start` parameter is of type `usize`, which represents an unsigned integer that
-    ///             can hold the size of any object in memory. It is used to set the value of the `start` field in
-    ///             the struct or object that this method belongs to.
+    ///   can hold the size of any object in memory. It is used to set the value of the `start` field in
+    ///   the struct or object that this method belongs to.
     ///
     /// # Examples
     ///
@@ -234,7 +234,7 @@ impl<T> std::ops::Index<usize> for ShiftArray<T> {
     /// Arguments:
     ///
     /// * `key`: The `key` parameter is of type `usize` and represents the index of the element to be
-    ///          accessed in the `lst` field.
+    ///   accessed in the `lst` field.
     ///
     /// Returns:
     ///
@@ -262,7 +262,7 @@ impl<T> std::ops::IndexMut<usize> for ShiftArray<T> {
     /// Arguments:
     ///
     /// * `key`: The `key` parameter is of type `usize` and represents the index of the element to be
-    ///          accessed in the `lst` vector.
+    ///   accessed in the `lst` vector.
     ///
     /// Returns:
     ///

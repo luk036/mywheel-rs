@@ -48,7 +48,7 @@ impl Robin {
     /// Arguments:
     ///
     /// * `from_part`: The `from_part` parameter is the index of the cycle from which you want to exclude
-    ///                 elements.
+    ///   elements.
     ///
     /// Returns:
     ///

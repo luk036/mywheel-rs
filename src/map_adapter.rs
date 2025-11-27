@@ -3,7 +3,7 @@
 /// Properties:
 ///
 /// * `lst`: The `lst` property is a vector that stores elements of type `T`. It is used to store the
-///          selements of the `MapAdapter` struct.
+///   selements of the `MapAdapter` struct.
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MapAdapter<T> {
@@ -104,7 +104,7 @@ impl<T> MapAdapter<T> {
     /// Arguments:
     ///
     /// * `key`: The `key` parameter is of type `usize`, which represents an unsigned integer. It is
-    ///          used to specify the index of an element in the `lst` array.
+    ///   used to specify the index of an element in the `lst` array.
     ///
     /// Returns:
     ///
@@ -132,7 +132,7 @@ impl<T> std::ops::Index<usize> for MapAdapter<T> {
     /// Arguments:
     ///
     /// * `key`: The `key` parameter is of type `usize`. It represents the index of the element in the
-    ///          `lst` field that you want to access.
+    ///   `lst` field that you want to access.
     ///
     /// Returns:
     ///
@@ -162,7 +162,7 @@ impl<T> std::ops::IndexMut<usize> for MapAdapter<T> {
     /// Arguments:
     ///
     /// * `key`: The `key` parameter is of type `usize`. It represents the index of the element in the
-    ///          `lst` field that you want to access and modify.
+    ///   `lst` field that you want to access and modify.
     ///
     /// Returns:
     ///
