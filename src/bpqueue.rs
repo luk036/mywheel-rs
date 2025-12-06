@@ -3,7 +3,7 @@ use crate::dllist::{Dllink, Dllist};
 #[doc = svgbobdoc::transform!(
 /// The `BPQueue` struct is a bounded priority queue implemented using an array of doubly-linked lists,
 /// with integer keys in a specified range.
-/// 
+///
 /// Bounded Priority Queue with integer keys in [a..b].
 /// Implemented by an array (bucket) of doubly-linked lists.
 /// Efficient if the keys are bounded by a small integer value.
@@ -19,13 +19,13 @@ use crate::dllist::{Dllink, Dllist};
 /// sentinel) is used to reduce the boundary checking during updates.
 ///
 /// All the member functions assume that the keys are inside the bounds.
-/// 
+///
 /// ```svgbob
 ///                   ____ bucket
-///          +----+  /     
+///          +----+  /
 ///        b |high| V
 ///          +----+
-///          |    |  
+///          |    |
 ///          +----+    +----+    +----+
 ///          |max-|--->|{c}-|--->|{c} |
 ///          +----+    +----+    +----+
@@ -34,13 +34,13 @@ use crate::dllist::{Dllink, Dllist};
 ///          |   -|--->|{c}-|--->|{c}-|--->|{c} |
 ///          +----+    +----+    +----+    +----+
 ///          :    :
-///          
+///
 ///          :    :
 ///          +----+    +----+    +----+    +----+    +----+
 ///          |2  -|--->|{c}-|--->|{c}-|--->|{c}-|--->|{c} |
 ///          +----+    +----+    +----+    +----+    +----+
-///        a |1   | 
-///          +----+ 
+///        a |1   |
+///          +----+
 ///  sentinel|0   |
 ///          +----+^
 ///                 \
@@ -53,9 +53,9 @@ use crate::dllist::{Dllink, Dllist};
 ///     fill: papayawhip;
 /// }
 /// ```
-/// 
+///
 /// Properties:
-/// 
+///
 /// * `max`: The maximum number of elements that can be stored in the bounded priority queue.
 /// * `offset`: The `offset` property represents the lower bound of the integer keys in the bounded
 ///             priority queue. It is of type `i32`, which means it can hold both positive and negative values. The

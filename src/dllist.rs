@@ -11,7 +11,7 @@
 ///         |  data  |
 ///         +--------+
 /// ```
-/// 
+///
 /// Properties:
 ///
 /// * `next`: A pointer to the next node in the doubly linked list.
@@ -191,7 +191,7 @@ impl<T> Dllink<T> {
 
 #[doc = svgbobdoc::transform!(
 /// The `Dllist` struct represents a doubly linked list.
-/// 
+///
 /// A Doubly-linked List class. This class simply contains a link of
 /// node's. By adding a "head" node (sentinel), deleting a node is
 /// extremely fast (see "Introduction to Algorithm"). This class does
@@ -199,15 +199,15 @@ impl<T> Dllink<T> {
 /// algorithm. This saves memory and run-time to update the length
 /// information. Note that this class does not own the list node. They
 /// are supplied by the caller in order to better reuse the nodes.
-/// 
+///
 /// ```svgbob
 ///      .----------------------------------------------- - - ------------------------------.
 ///      |  +--------+      +--------+      +--------+           +--------+      +--------+  )
 ///      `->| head *-|----->| {c}  *-|----->| {c}  *-|--- - - -->| {c}  *-|----->| {c1} *-|-'
 ///       .-|-* {a}  |<-----|-*      |<-----|-*      |<-- - - ---|-*      |<-----|-*      |<-.
 ///      (  +--------+      +--------+      +--------+           +--------+      +--------+   |
-///       `---------------------------------------------- - - -------------------------------' 
-/// 
+///       `---------------------------------------------- - - -------------------------------'
+///
 /// # Legend:
 /// a = {
 ///     fill: lightblue;
@@ -216,9 +216,9 @@ impl<T> Dllink<T> {
 ///     fill: papayawhip;
 /// }
 /// ```
-/// 
+///
 /// Properties:
-/// 
+///
 /// * `head`: The head property is a `Dllink<T>` that represents the first node in the doubly linked list.
 ///           Doubly linked list
 )]
