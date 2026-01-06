@@ -430,7 +430,7 @@ impl<T> Dllist<T> {
 /// to attach/detach list items during the iterator is active.
 #[derive(Debug, PartialEq, Eq)]
 pub struct DllIterator<'a, T> {
-    cur: *mut Dllink<T>,
+    curr: *mut Dllink<T>,
     link: &'a mut Dllink<T>,
 }
 
@@ -448,7 +448,7 @@ impl<'a, T> DllIterator<'a, T> {
     #[inline]
     pub fn new(link: &'a mut Dllink<T>) -> Self {
         Self {
-            cur: link.next,
+            curr: link.next,
             link,
         }
     }
@@ -466,10 +466,10 @@ impl<'a, T> Iterator for DllIterator<'a, T> {
 
     /// Return a next item
     fn next(&mut self) -> Option<Self::Item> {
-        if !std::ptr::eq(self.cur, self.link) {
-            let res = self.cur;
+        if !std::ptr::eq(self.curr, self.link) {
+            let res = self.curr;
             unsafe {
-                self.cur = (*self.cur).next;
+                self.curr = (*self.curr).next;
                 return Some(&mut *res);
             }
         }

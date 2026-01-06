@@ -419,10 +419,10 @@ impl<T: Default> BPQueue<T> {
 //
 //     /// Return a next item
 //     fn next(&mut self) -> Option<Self::Item> {
-//         if self.cur as *const Dllink<T> != self.link as *const Dllink<T> {
-//             let res = self.cur;
+//         if self.curr as *const Dllink<T> != self.link as *const Dllink<T> {
+//             let res = self.curr;
 //             unsafe {
-//                 self.cur = (*self.cur).next;
+//                 self.curr = (*self.curr).next;
 //                 return Some(&mut *res);
 //             }
 //         }

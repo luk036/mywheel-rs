@@ -11,11 +11,11 @@ pub struct Robin {
 ///
 /// Properties:
 ///
-/// * `cur`: A mutable reference to the current node in the iterator.
+/// * `curr`: A mutable reference to the current node in the iterator.
 /// * `stop`: The `stop` property is a reference to the node at which the iteration should stop.
 pub struct RobinIterator<'a> {
     cycle: &'a [u8],
-    cur: u8,
+    curr: u8,
     stop: u8,
 }
 
@@ -57,7 +57,7 @@ impl Robin {
     pub fn exclude(&self, from_part: u8) -> RobinIterator<'_> {
         RobinIterator {
             cycle: &self.cycle,
-            cur: from_part,
+            curr: from_part,
             stop: from_part,
         }
     }
@@ -74,12 +74,12 @@ impl Iterator for RobinIterator<'_> {
     /// The `next` method returns an `Option<Self::Item>`.
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        let next = self.cycle[self.cur as usize];
+        let next = self.cycle[self.curr as usize];
         if next == self.stop {
             None
         } else {
-            self.cur = next;
-            Some(self.cur)
+            self.curr = next;
+            Some(self.curr)
         }
     }
 }
