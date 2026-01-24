@@ -4,6 +4,25 @@ use crate::dllist::{Dllink, Dllist};
 /// The `BPQueue` struct is a bounded priority queue implemented using an array of doubly-linked lists,
 /// with integer keys in a specified range.
 ///
+/// # Performance Characteristics
+/// 
+/// * **Time Complexity**: 
+///   - Insert: O(1) amortized
+///   - Extract Max: O(1) 
+///   - Decrease/Increase Key: O(log K) where K is key range size
+///   - Clear: O(K) where K is key range size
+/// * **Space Complexity**: O(K + N) where K is key range size, N is number of elements
+/// * **Memory Overhead**: Array of lists + sentinel node per bucket
+/// * **Cache Performance**: Excellent - array-based buckets provide good locality
+/// * **Use Cases**: FM algorithm, bounded priority queues, scheduling systems
+/// * **vs std::collections::BinaryHeap**: Faster for small integer ranges, more predictable performance
+/// 
+/// # Implementation Notes
+/// 
+/// * Uses sentinel bucket to reduce boundary checks
+/// * Maintains max pointer to avoid scanning empty buckets
+/// * Does not own nodes (shared ownership with Dllist)
+///
 /// Bounded Priority Queue with integer keys in [a..b].
 /// Implemented by an array (bucket) of doubly-linked lists.
 /// Efficient if the keys are bounded by a small integer value.
@@ -497,6 +516,8 @@ mod tests {
         bpq1.append(&mut f, -10);
         bpq1.append(&mut d, 5);
 
+        // Safety: popleft() returns valid pointers to Dllink nodes
+        // Dereferencing them is safe because the nodes exist and were properly initialized
         unsafe {
             bpq2.append(&mut *bpq1.popleft(), -6); // d
             bpq2.append(&mut *bpq1.popleft(), 3);
