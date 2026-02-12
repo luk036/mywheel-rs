@@ -8,7 +8,7 @@
 /// * **Memory Overhead**: Minimal - just value + size fields
 /// * **Cache Performance**: Excellent - single value fits in cache line
 /// * **Use Cases**: Constant data, memory-efficient large arrays, read-only patterns
-/// * **vs Vec<T>**: 100x less memory, same access time, no allocation overhead
+/// * **vs `Vec<T>`**: 100x less memory, same access time, no allocation overhead
 ///
 /// # Implementation Notes
 ///
@@ -131,7 +131,7 @@ impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
 /// * **Memory Overhead**: Minimal - start offset + Vec pointer
 /// * **Cache Performance**: Good - preserves locality, allows in-place operations
 /// * **Use Cases**: Sliding windows, circular buffers, offset-based addressing
-/// * **vs Vec<T>**: Same memory, additional offset calculation overhead
+/// * **vs `Vec<T>`**: Same memory, additional offset calculation overhead
 ///
 /// # Implementation Notes
 ///
