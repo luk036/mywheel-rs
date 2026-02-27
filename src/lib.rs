@@ -3,5 +3,9 @@ pub mod bpqueue;
 pub mod dllist;
 pub mod map_adapter;
 pub mod robin;
+
+#[cfg(feature = "std")]
+pub mod logging;
+
 // use bpqueue::BPQueue;
 // use dllist::{DllIterator, Dllink, Dllist};
