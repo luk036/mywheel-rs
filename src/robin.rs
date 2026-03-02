@@ -3,6 +3,7 @@
 /// Properties:
 ///
 /// * `cycle`: A vector of SlNode objects.
+#[derive(Debug, Clone)]
 pub struct Robin {
     cycle: Vec<u8>,
 }
@@ -13,6 +14,7 @@ pub struct Robin {
 ///
 /// * `curr`: A mutable reference to the current node in the iterator.
 /// * `stop`: The `stop` property is a reference to the node at which the iteration should stop.
+#[derive(Debug)]
 pub struct RobinIterator<'a> {
     cycle: &'a [u8],
     curr: u8,

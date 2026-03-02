@@ -145,7 +145,7 @@ impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
 ///   indicates the starting point from which elements are accessed or shifted.
 /// * `lst`: The `lst` property is a vector that holds the elements of the `ShiftArray`. It is of type
 ///   `Vec<T>`, where `T` is a generic type parameter that can be replaced with any type.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct ShiftArray<T> {
     pub start: usize,
     pub lst: Vec<T>,
@@ -310,6 +310,30 @@ impl<T> std::ops::IndexMut<usize> for ShiftArray<T> {
     /// ```
     fn index_mut(&mut self, key: usize) -> &mut Self::Output {
         &mut self.lst[key - self.start]
+    }
+}
+
+impl<T: std::fmt::Display> std::fmt::Display for RepeatArray<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "RepeatArray[{}] with value: {}", self.size, self.value)
+    }
+}
+
+impl<T: std::fmt::Debug> std::fmt::Debug for RepeatArray<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("RepeatArray")
+            .field("value", &self.value)
+            .field("size", &self.size)
+            .finish()
+    }
+}
+
+impl<T: std::fmt::Debug> std::fmt::Debug for ShiftArray<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ShiftArray")
+            .field("start", &self.start)
+            .field("len", &self.lst.len())
+            .finish()
     }
 }
 

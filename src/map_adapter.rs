@@ -38,11 +38,52 @@ impl<T> MapAdapter<T> {
         }
     }
 
+    /// Get a reference to the element at the given index, if it exists.
+    ///
+    /// # Arguments
+    ///
+    /// * `key`: The index of the element to retrieve.
+    ///
+    /// # Returns
+    ///
+    /// * `Some(&T)` if the index is valid
+    /// * `None` if the index is out of bounds
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::map_adapter::MapAdapter;
+    ///
+    /// let list = MapAdapter::new(vec![1, 2, 3]);
+    /// assert_eq!(list.get(0), Some(&1));
+    /// assert_eq!(list.get(2), Some(&3));
+    /// assert_eq!(list.get(3), None);
+    /// ```
     #[inline]
     pub fn get(&self, key: usize) -> Option<&T> {
         self.lst.get(key)
     }
 
+    /// Set the element at the given index to a new value, if the index is valid.
+    ///
+    /// # Arguments
+    ///
+    /// * `key`: The index of the element to set.
+    /// * `new_value`: The new value to set.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::map_adapter::MapAdapter;
+    ///
+    /// let mut list = MapAdapter::new(vec![1, 2, 3]);
+    /// list.set(1, 10);
+    /// assert_eq!(list.get(1), Some(&10));
+    ///
+    /// // Setting out of bounds does nothing
+    /// list.set(5, 100);
+    /// assert_eq!(list.get(5), None);
+    /// ```
     #[inline]
     pub fn set(&mut self, key: usize, new_value: T) {
         if let Some(value) = self.lst.get_mut(key) {
@@ -50,11 +91,37 @@ impl<T> MapAdapter<T> {
         }
     }
 
+    /// Returns the number of elements in the list.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::map_adapter::MapAdapter;
+    ///
+    /// let list = MapAdapter::new(vec![1, 2, 3]);
+    /// assert_eq!(list.len(), 3);
+    ///
+    /// let empty: MapAdapter<i32> = MapAdapter::new(vec![]);
+    /// assert_eq!(empty.len(), 0);
+    /// ```
     #[inline]
     pub fn len(&self) -> usize {
         self.lst.len()
     }
 
+    /// Returns `true` if the list contains no elements.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mywheel_rs::map_adapter::MapAdapter;
+    ///
+    /// let list = MapAdapter::new(vec![1, 2, 3]);
+    /// assert!(!list.is_empty());
+    ///
+    /// let empty: MapAdapter<i32> = MapAdapter::new(vec![]);
+    /// assert!(empty.is_empty());
+    /// ```
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.lst.is_empty()
@@ -99,24 +166,26 @@ impl<T> MapAdapter<T> {
         self.lst.iter().enumerate()
     }
 
-    /// The function checks if a given key is within the range of the lst vector.
+    /// Check if the given index is valid (within bounds).
     ///
-    /// Arguments:
+    /// # Arguments
     ///
-    /// * `key`: The `key` parameter is of type `usize`, which represents an unsigned integer. It is
-    ///   used to specify the index of an element in the `lst` array.
+    /// * `key`: The index to check.
     ///
-    /// Returns:
+    /// # Returns
     ///
-    /// A boolean value is being returned.
+    /// * `true` if the index is valid
+    /// * `false` if the index is out of bounds
     ///
-    /// # Examples:
+    /// # Examples
     ///
-    /// ```
+    /// ```rust
     /// use mywheel_rs::map_adapter::MapAdapter;
     ///
-    /// assert_eq!(MapAdapter::new(vec![1, 2, 3]).contains(0), true);
-    /// assert_eq!(MapAdapter::new(vec![1, 2, 3]).contains(3), false);
+    /// let list = MapAdapter::new(vec![1, 2, 3]);
+    /// assert!(list.contains(0));
+    /// assert!(list.contains(2));
+    /// assert!(!list.contains(3));
     /// ```
     #[inline]
     pub fn contains(&self, key: usize) -> bool {
