@@ -12,8 +12,9 @@ pub struct Robin {
 ///
 /// Properties:
 ///
-/// * `curr`: A mutable reference to the current node in the iterator.
-/// * `stop`: The `stop` property is a reference to the node at which the iteration should stop.
+/// * `cycle`: A reference to the cycle slice being iterated.
+/// * `curr`: The current position in the cycle (a u8 value).
+/// * `stop`: The stop position in the cycle where iteration ends (a u8 value).
 #[derive(Debug)]
 pub struct RobinIterator<'a> {
     cycle: &'a [u8],
