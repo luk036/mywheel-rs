@@ -50,10 +50,26 @@ impl<T: Copy> RepeatArray<T> {
         RepeatArray { value, size }
     }
 
+    /// Get a reference to the value at the given index.
+    ///
+    /// Since all elements are identical, this always returns a copy of the stored value.
+    ///
+    /// # Arguments
+    ///
+    /// * `_index`: The index (unused since all values are the same).
+    ///
+    /// # Returns
+    ///
+    /// A copy of the repeated value.
     pub fn get(&self, _index: usize) -> T {
         self.value
     }
 
+    /// Returns an iterator over the repeated values.
+    ///
+    /// # Returns
+    ///
+    /// A `RepeatArrayIterator` that yields the same value repeatedly.
     pub fn iter(&self) -> RepeatArrayIterator<T> {
         RepeatArrayIterator {
             value: self.value,
@@ -61,15 +77,36 @@ impl<T: Copy> RepeatArray<T> {
         }
     }
 
+    /// Returns the number of elements in the array.
+    ///
+    /// # Returns
+    ///
+    /// The number of elements (the size parameter from construction).
     pub fn len(&self) -> usize {
         self.size
     }
 
+    /// Returns `true` if the array contains no elements.
+    ///
+    /// # Returns
+    ///
+    /// `true` if size is 0, `false` otherwise.
     pub fn is_empty(&self) -> bool {
         self.size == 0
     }
 }
 
+/// Iterator for `RepeatArray` that yields the repeated value.
+///
+/// # Performance Characteristics
+///
+/// * **Time Complexity**: O(1) for all operations
+/// * **Space Complexity**: O(1) - just stores value and remaining count
+///
+/// Properties:
+///
+/// * `value`: The value to return on each iteration.
+/// * `size`: The number of remaining iterations.
 pub struct RepeatArrayIterator<T> {
     value: T,
     size: usize,
@@ -220,6 +257,11 @@ impl<T> ShiftArray<T> {
             .map(move |(i, v)| (i + self.start, v))
     }
 
+    /// Returns an iterator over the elements.
+    ///
+    /// # Returns
+    ///
+    /// A `ShiftArrayIterator` that yields owned values.
     pub fn iter(&self) -> ShiftArrayIterator<'_, T> {
         ShiftArrayIterator {
             array: self,
@@ -227,15 +269,31 @@ impl<T> ShiftArray<T> {
         }
     }
 
+    /// Returns the number of elements in the array.
+    ///
+    /// # Returns
+    ///
+    /// The length of the underlying vector.
     pub fn len(&self) -> usize {
         self.lst.len()
     }
 
+    /// Returns `true` if the array contains no elements.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the underlying vector is empty, `false` otherwise.
     pub fn is_empty(&self) -> bool {
         self.lst.is_empty()
     }
 }
 
+/// Iterator for `ShiftArray` that yields owned values.
+///
+/// Properties:
+///
+/// * `array`: Reference to the array being iterated.
+/// * `current`: The current position in the array.
 pub struct ShiftArrayIterator<'a, T> {
     array: &'a ShiftArray<T>,
     current: usize,
@@ -313,12 +371,16 @@ impl<T> std::ops::IndexMut<usize> for ShiftArray<T> {
     }
 }
 
+/// Display implementation for RepeatArray.
+///
+/// Formats as: `RepeatArray[size] with value: {value}`
 impl<T: std::fmt::Display> std::fmt::Display for RepeatArray<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "RepeatArray[{}] with value: {}", self.size, self.value)
     }
 }
 
+/// Debug implementation for RepeatArray.
 impl<T: std::fmt::Debug> std::fmt::Debug for RepeatArray<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("RepeatArray")
@@ -328,6 +390,7 @@ impl<T: std::fmt::Debug> std::fmt::Debug for RepeatArray<T> {
     }
 }
 
+/// Debug implementation for ShiftArray.
 impl<T: std::fmt::Debug> std::fmt::Debug for ShiftArray<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ShiftArray")

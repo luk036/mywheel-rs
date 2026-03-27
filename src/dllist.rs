@@ -453,6 +453,11 @@ impl<T> Dllist<T> {
 ///
 /// Traverse the list from the first item. Usually it is safe
 /// to attach/detach list items during the iterator is active.
+///
+/// Properties:
+///
+/// * `curr`: Pointer to the current node.
+/// * `link`: Mutable reference to the sentinel (head) node.
 #[derive(Debug, PartialEq, Eq)]
 pub struct DllIterator<'a, T> {
     curr: *mut Dllink<T>,

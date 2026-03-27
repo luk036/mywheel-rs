@@ -402,6 +402,11 @@ impl<T: Default + Clone> BPQueue<T> {
 ///
 /// Traverse the list from the first item. Usually it is safe
 /// to attach/detach list items during the iterator is active.
+///
+/// Properties:
+///
+/// * `bpq`: Mutable reference to the BPQueue being iterated.
+/// * `curkey`: The current key position in the bucket array.
 #[derive(Debug)]
 pub struct BPQueueIterator<'a, T> {
     pub bpq: &'a mut BPQueue<T>,
@@ -409,7 +414,7 @@ pub struct BPQueueIterator<'a, T> {
 }
 
 impl<'a, T: Default> BPQueueIterator<'a, T> {
-    /// Construct a new DllIterator object
+    /// Construct a new BPQueueIterator object
     ///
     /// # Examples
     ///
@@ -427,7 +432,7 @@ impl<'a, T: Default> BPQueueIterator<'a, T> {
 }
 
 impl<T: Default> BPQueue<T> {
-    /// Return a new DllIterator object
+    /// Return a new BPQueueIterator object
     pub fn iter_mut(&mut self) -> BPQueueIterator<'_, T> {
         BPQueueIterator::new(self)
     }
