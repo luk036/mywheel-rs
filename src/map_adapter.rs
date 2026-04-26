@@ -283,4 +283,22 @@ mod tests {
         a[2] = 7;
         assert_eq!(a[2], 7);
     }
+
+    #[test]
+    fn test_is_empty() {
+        let empty: MapAdapter<i32> = MapAdapter::new(vec![]);
+        assert!(empty.is_empty());
+
+        let non_empty = MapAdapter::new(vec![1, 2, 3]);
+        assert!(!non_empty.is_empty());
+    }
+
+    #[test]
+    fn test_set_out_of_bounds() {
+        let mut a = MapAdapter::new(vec![1, 2, 3]);
+        // Setting out of bounds should not panic
+        a.set(10, 999);
+        assert_eq!(a.get(10), None);
+        assert_eq!(a.get(0), Some(&1));
+    }
 }

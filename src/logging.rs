@@ -150,4 +150,16 @@ mod tests {
         // Just check the function doesn't panic
         let _ = is_logger_initialized();
     }
+
+    #[test]
+    #[ignore] // init() can only be called once per process
+    fn test_init_logger() {
+        init_logger();
+    }
+
+    #[test]
+    #[ignore] // init() can only be called once per process
+    fn test_init_logger_with_filter() {
+        init_logger_with_filter("debug");
+    }
 }
