@@ -5,10 +5,10 @@ use crate::dllist::{Dllink, Dllist};
 /// with integer keys in a specified range.
 ///
 /// # Performance Characteristics
-/// 
-/// * **Time Complexity**: 
+///
+/// * **Time Complexity**:
 ///   - Insert: O(1) amortized
-///   - Extract Max: O(1) 
+///   - Extract Max: O(1)
 ///   - Decrease/Increase Key: O(log K) where K is key range size
 ///   - Clear: O(K) where K is key range size
 /// * **Space Complexity**: O(K + N) where K is key range size, N is number of elements
@@ -16,9 +16,9 @@ use crate::dllist::{Dllink, Dllist};
 /// * **Cache Performance**: Excellent - array-based buckets provide good locality
 /// * **Use Cases**: FM algorithm, bounded priority queues, scheduling systems
 /// * **vs std::collections::BinaryHeap**: Faster for small integer ranges, more predictable performance
-/// 
+///
 /// # Implementation Notes
-/// 
+///
 /// * Uses sentinel bucket to reduce boundary checks
 /// * Maintains max pointer to avoid scanning empty buckets
 /// * Does not own nodes (shared ownership with Dllist)

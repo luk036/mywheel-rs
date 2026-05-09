@@ -3,16 +3,16 @@
 /// a data field of type `T`.
 ///
 /// # Performance Characteristics
-/// 
+///
 /// * **Time Complexity**: O(1) for all operations (append, detach, lock)
 /// * **Space Complexity**: O(1) per node + O(1) per list for head
 /// * **Memory Overhead**: 3 pointers (next, prev, self) per node = 24 bytes on 64-bit
 /// * **Cache Performance**: Poor - sequential pointer chasing may cause cache misses
 /// * **Use Cases**: Low-overhead linked structures, FM algorithm implementations
 /// * **vs std::collections::LinkedList**: Faster for specific patterns, less memory allocation
-/// 
+///
 /// # Implementation Notes
-/// 
+///
 /// * Uses raw pointers for maximum performance
 /// * Sentinel nodes avoid boundary checks
 /// * No length field maintained (FM algorithm optimization)

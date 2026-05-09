@@ -88,7 +88,7 @@ Example:
 ### Testing Patterns
 - **Module structure**: Each module has `#[cfg(test)] mod tests`
 - **Test naming**: `test_<module_name>` or descriptive names
-- **Test structure**: 
+- **Test structure**:
   - Basic construction tests
   - Operation tests with assertions
   - Edge case tests (including `#[should_panic]`)

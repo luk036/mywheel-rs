@@ -7,7 +7,7 @@ providing context for understanding when and why to use each implementation.
 
 - [Design Philosophy](#design-philosophy)
 - [Dllist Design](#dllist-design)
-- [BPQueue Design](#bpqueue-design) 
+- [BPQueue Design](#bpqueue-design)
 - [Array Structures Design](#array-design)
 - [MapAdapter Design](#map-adapter-design)
 - [Robin Design](#robin-design)
