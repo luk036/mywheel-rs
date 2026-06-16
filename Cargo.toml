@@ -14,15 +14,15 @@ categories = ["data-structures", "algorithms", "no-std"]
 
 [dependencies]
 svgbobdoc = { version = "0.3", features = ["enable"] }
-env_logger = { version = "0.11", optional = true }
-log = { version = "0.4", optional = true }
+env_logger = { version = "0.11.10", optional = true }
+log = { version = "0.4.32", optional = true }
 
 [features]
 default = []
 std = ["dep:env_logger", "dep:log"]
 
 [dev-dependencies]
-criterion = { version = "0.5", features = ["html_reports"] }
+criterion = { version = "0.8.2", features = ["html_reports"] }
 quickcheck = "1.0"
 
 [[bench]]
