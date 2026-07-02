@@ -73,6 +73,17 @@ use crate::dllist::{Dllink, Dllist};
 /// }
 /// ```
 ///
+/// ```svgbob
+///  .───────────────.
+///  │  Priority     │
+///  │  Queue        │
+///  ├───────────────┤
+///  │  push()       │──► Insert
+///  │  pop()        │──► Extract min
+///  │  decrease_key()│──► Update
+///  '───────────────'
+/// ```
+///
 /// Properties:
 ///
 /// * `max`: The maximum number of elements that can be stored in the bounded priority queue.
