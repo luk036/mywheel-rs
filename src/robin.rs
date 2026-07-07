@@ -1,87 +1,109 @@
-/// The `Robin` struct represents a round robin scheduling algorithm.
+/// Round-robin scheduler using a circular singly-linked list.
 ///
-/// Properties:
+/// The cycle is stored as a "next-index" array where `next[i]` is the index of
+/// the node after node `i`.  The nodes are linked in a circle: 0 → 1 → 2 → … → n-1 → 0.
 ///
-/// * `cycle`: A vector of SlNode objects.
+/// `exclude(from_part)` returns an iterator that visits every node **except**
+/// the excluded one, starting from the node immediately after `from_part`.
+///
+/// # Example
+///
+/// ```rust
+/// use mywheel_rs::robin::Robin;
+///
+/// let rr = Robin::new(6);
+/// let visited: Vec<u8> = rr.exclude(2).collect();
+/// assert_eq!(visited, vec![3, 4, 5, 0, 1]);
+/// ```
+///
+/// ```svgbob
+/// Round Robin Cycle:
+///
+///    ┌─────┐
+///    │  0  │◄────────────────────────┐
+///    └──┬──┘                        │
+///       │                           │
+///       ▼                           │
+///    ┌─────┐                        │
+///    │  1  │◄────┐                 │
+///    └──┬──┘     │                 │
+///       │        │                 │
+///       ▼        │                 │
+///    ┌─────┐     │                 │
+///    │  2  │◄────┼─────────────────┤  <-- exclude(2) skips this
+///    └──┬──┘     │                 │
+///       │        │                 │
+///       ▼        │                 │
+///    ┌─────┐     │                 │
+///    │  3  │◄────┘                 │
+///    └──┬──┘                       │
+///       │                          │
+///       └──────────────────────────┘
+/// ```
 #[derive(Debug, Clone)]
 pub struct Robin {
-    cycle: Vec<u8>,
+    /// `next[i]` stores the index of the node that follows node `i` in the cycle.
+    next: Vec<u8>,
 }
 
-/// The `RobinIterator` struct is a iterator over a singly linked list.
+/// Iterator over a [`Robin`] cycle that visits every node except one.
 ///
-/// Properties:
-///
-/// * `cycle`: A reference to the cycle slice being iterated.
-/// * `curr`: The current position in the cycle (a u8 value).
-/// * `stop`: The stop position in the cycle where iteration ends (a u8 value).
+/// Created by [`Robin::exclude`].
 #[derive(Debug)]
 pub struct RobinIterator<'a> {
-    cycle: &'a [u8],
+    /// The "next-index" array of the parent [`Robin`].
+    next: &'a [u8],
+    /// Current position (index into `next`).
     curr: u8,
+    /// Index of the excluded node – iteration stops when we reach this.
     stop: u8,
 }
 
 impl Robin {
-    /// The `new` function creates a cycle of linked nodes with a specified number of parts.
+    /// Construct a round-robin cycle with `num_parts` nodes.
     ///
-    /// Arguments:
+    /// Nodes are created with sequential keys 0, 1, …, `num_parts`-1 and
+    /// wired into a circular singly-linked list.
     ///
-    /// * `num_parts`: The `num_parts` parameter is the number of parts or nodes in the cycle.
+    /// # Panics
     ///
-    /// Returns:
-    ///
-    /// The `new` function is returning an instance of the struct that it is defined in.
+    /// Panics if `num_parts < 2`.
     #[inline]
     pub fn new(num_parts: u8) -> Robin {
-        let mut cycle = Vec::with_capacity(num_parts as usize);
-        let mut k = 0;
-
-        for _ in 0..num_parts {
-            k += 1;
-            cycle.push(k);
-        }
-
-        cycle[num_parts as usize - 1] = 0;
-        Robin { cycle }
+        let n = num_parts as usize;
+        assert!(
+            n >= 2,
+            "Robin::new: num_parts must be at least 2, got {num_parts}"
+        );
+        let next: Vec<u8> = (0..n).map(|i| ((i + 1) % n) as u8).collect();
+        Robin { next }
     }
 
-    /// The `exclude` function returns a `RobinIterator` that excludes a specified part of a cycle.
+    /// Return an iterator that visits every node **except** `from_part`.
     ///
-    /// Arguments:
-    ///
-    /// * `from_part`: The `from_part` parameter is the index of the cycle from which you want to exclude
-    ///   elements.
-    ///
-    /// Returns:
-    ///
-    /// The `exclude` method returns a `RobinIterator` object.
+    /// Iteration begins at the node after `from_part` and stops when it would
+    /// circle back to the excluded node.
     #[inline]
     pub fn exclude(&self, from_part: u8) -> RobinIterator<'_> {
         RobinIterator {
-            cycle: &self.cycle,
+            next: &self.next,
             curr: from_part,
             stop: from_part,
         }
     }
 }
 
-impl Iterator for RobinIterator<'_> {
+impl<'a> Iterator for RobinIterator<'a> {
     type Item = u8;
 
-    /// The `next` function returns the next item in a linked list if it exists, otherwise it returns
-    /// `None`.
-    ///
-    /// Returns:
-    ///
-    /// The `next` method returns an `Option<Self::Item>`.
+    /// Advance to the next node and yield its key.
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        let next = self.cycle[self.curr as usize];
-        if next == self.stop {
+        let nxt = self.next[self.curr as usize];
+        if nxt == self.stop {
             None
         } else {
-            self.curr = next;
+            self.curr = nxt;
             Some(self.curr)
         }
     }
@@ -92,18 +114,68 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_robin() {
-        let rr: Robin = Robin::new(6);
+    fn test_robin_count() {
+        let rr = Robin::new(6);
         let mut count = 0;
         for _i in rr.exclude(2) {
             count += 1;
         }
         assert_eq!(count, 5);
     }
+
+    #[test]
+    fn test_robin_exclude_values() {
+        let rr = Robin::new(6);
+        let mut count = 0u32;
+        let mut sum = 0u32;
+        for i in rr.exclude(2) {
+            count += 1;
+            sum += i as u32;
+        }
+        assert_eq!(count, 5);
+        // Every value except 2: 0 + 1 + 3 + 4 + 5 = 13
+        assert_eq!(sum, 13);
+    }
+
+    #[test]
+    fn test_robin_exclude_start() {
+        let rr = Robin::new(6);
+        // exclude(0) should yield: 1, 2, 3, 4, 5
+        let visited: Vec<u8> = rr.exclude(0).collect();
+        assert_eq!(visited, vec![1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn test_robin_exclude_last() {
+        let rr = Robin::new(6);
+        // exclude(5) should yield: 0, 1, 2, 3, 4
+        let visited: Vec<u8> = rr.exclude(5).collect();
+        assert_eq!(visited, vec![0, 1, 2, 3, 4]);
+    }
+
+    #[test]
+    fn test_robin_two_parts() {
+        let rr = Robin::new(2);
+        // exclude(0): 1
+        assert_eq!(rr.exclude(0).collect::<Vec<_>>(), vec![1]);
+        // exclude(1): 0
+        assert_eq!(rr.exclude(1).collect::<Vec<_>>(), vec![0]);
+    }
+
+    #[test]
+    fn test_robin_stress() {
+        // Mirrors the C++ stress test: random exclusions on a 1000-part cycle
+        let num_parts = 250u8;
+        let rr = Robin::new(num_parts);
+        for excluded in 0..num_parts {
+            let expected_len = (num_parts - 1) as usize;
+            let visited: Vec<u8> = rr.exclude(excluded).collect();
+            assert_eq!(visited.len(), expected_len);
+            // All values 0..num_parts except excluded should be present
+            let mut sorted = visited.clone();
+            sorted.sort();
+            let expected: Vec<u8> = (0..num_parts).filter(|&x| x != excluded).collect();
+            assert_eq!(sorted, expected);
+        }
+    }
 }
-// fn main() {
-//     let mut r = Robin::new(5);
-//     for k in r.exclude(3) {
-//         println!("{}", k);
-//     }
-// }
