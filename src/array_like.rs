@@ -462,4 +462,32 @@ mod tests {
             assert_eq!(v, &shift_array[i]);
         }
     }
+
+    #[test]
+    fn test_repeat_array_empty_and_iterator() {
+        let arr: RepeatArray<i32> = RepeatArray::new(42, 0);
+        assert!(arr.is_empty());
+        assert_eq!(arr.len(), 0);
+        let mut iter = arr.iter();
+        assert_eq!(iter.len(), 0);
+        assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn test_repeat_array_exact_size_iterator() {
+        let arr = RepeatArray::new(7i32, 3);
+        let iter = arr.iter();
+        assert_eq!(iter.len(), 3);
+        let mut iter2 = arr.iter();
+        assert_eq!(iter2.next(), Some(7));
+        assert_eq!(iter2.len(), 2);
+        assert_eq!(iter2.count(), 2);
+    }
+
+    #[test]
+    fn test_shift_array_empty() {
+        let a: ShiftArray<i32> = ShiftArray::new(vec![]);
+        assert!(a.is_empty());
+        assert_eq!(a.len(), 0);
+    }
 }
