@@ -3,7 +3,6 @@
 //! Run with: `cargo test --example proptest_tests`
 
 use proptest::prelude::*;
-use mywheel_rs::bpqueue::BPQueue;
 
 proptest! {
     #[test]
