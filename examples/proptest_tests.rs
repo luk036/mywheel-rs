@@ -2,6 +2,8 @@
 //!
 //! Run with: `cargo test --example proptest_tests`
 
+#[allow(unused_imports)]
+use mywheel_rs::bpqueue::BPQueue;
 use proptest::prelude::*;
 
 proptest! {
@@ -13,6 +15,4 @@ proptest! {
     }
 }
 
-fn main() {
-    println!("Run `cargo test --example proptest_tests` to execute proptest tests.");
-}
+fn main() {}
