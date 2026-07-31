@@ -8,7 +8,7 @@ readme = "README.md"
 homepage = "https://luk036.github.io/mywheel-rs/"
 repository = "https://github.com/luk036/mywheel-rs"
 license = "MIT OR Apache-2.0"
-rust-version = "1.65"
+rust-version = "1.70"
 keywords = ["data-structures", "algorithms", "performance", "optimization"]
 categories = ["data-structures", "algorithms", "no-std"]
 
