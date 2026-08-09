@@ -204,11 +204,7 @@ assert_eq!(array[101], "value0");
 
 ### 📦 Cargo
 
-```bash
-cargo install mywheel-rs
-```
-
-### Add to Project
+Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
