@@ -486,6 +486,7 @@ impl<'a, T> DllIterator<'a, T> {
 
 impl<T> Dllist<T> {
     /// Return a new DllIterator object
+    #[inline]
     pub fn iter_mut(&mut self) -> DllIterator<'_, T> {
         DllIterator::new(&mut self.head)
     }

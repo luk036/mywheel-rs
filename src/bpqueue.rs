@@ -145,6 +145,7 @@ impl<T: Default + Clone> BPQueue<T> {
     ///
     /// assert!(bpq.is_empty());
     /// ```
+    #[inline]
     pub fn is_empty(&self) -> bool {
         self.max == 0
     }
@@ -159,6 +160,7 @@ impl<T: Default + Clone> BPQueue<T> {
     ///
     /// assert_eq!(bpq.get_max(), -4);
     /// ```
+    #[inline]
     pub fn get_max(&self) -> i32 {
         self.offset + self.max as i32
     }
@@ -191,6 +193,7 @@ impl<T: Default + Clone> BPQueue<T> {
     ///
     /// assert!(bpq.is_empty());
     /// ```
+    #[inline]
     pub fn set_key(&mut self, it: &mut Dllink<(usize, T)>, gain: i32) {
         it.data.0 = (gain - self.offset) as usize;
     }
@@ -444,6 +447,7 @@ impl<'a, T: Default> BPQueueIterator<'a, T> {
 
 impl<T: Default> BPQueue<T> {
     /// Return a new BPQueueIterator object
+    #[inline]
     pub fn iter_mut(&mut self) -> BPQueueIterator<'_, T> {
         BPQueueIterator::new(self)
     }

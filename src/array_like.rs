@@ -46,6 +46,7 @@ impl<T: Copy> RepeatArray<T> {
     /// assert_eq!(array[0], 1);
     /// assert_eq!(array[1], 1);
     /// ```
+    #[inline]
     pub fn new(value: T, size: usize) -> RepeatArray<T> {
         RepeatArray { value, size }
     }
@@ -61,6 +62,7 @@ impl<T: Copy> RepeatArray<T> {
     /// # Returns
     ///
     /// A copy of the repeated value.
+    #[inline]
     pub fn get(&self, _index: usize) -> T {
         self.value
     }
@@ -82,6 +84,7 @@ impl<T: Copy> RepeatArray<T> {
     /// # Returns
     ///
     /// The number of elements (the size parameter from construction).
+    #[inline]
     pub fn len(&self) -> usize {
         self.size
     }
@@ -91,6 +94,7 @@ impl<T: Copy> RepeatArray<T> {
     /// # Returns
     ///
     /// `true` if size is 0, `false` otherwise.
+    #[inline]
     pub fn is_empty(&self) -> bool {
         self.size == 0
     }
@@ -126,6 +130,7 @@ impl<T: Copy> Iterator for RepeatArrayIterator<T> {
 }
 
 impl<T: Copy> ExactSizeIterator for RepeatArrayIterator<T> {
+    #[inline]
     fn len(&self) -> usize {
         self.size
     }
@@ -153,6 +158,7 @@ impl<T: Copy> std::ops::Index<usize> for RepeatArray<T> {
     /// assert_eq!(array[0], 1);
     /// assert_eq!(array[1], 1);
     /// ```
+    #[inline]
     fn index(&self, _index: usize) -> &Self::Output {
         &self.value
     }
@@ -211,6 +217,7 @@ impl<T> ShiftArray<T> {
     /// assert_eq!(shift_array.len(), 3);
     /// assert_eq!(shift_array[0], 1);
     /// ```
+    #[inline]
     pub fn new(lst: Vec<T>) -> Self {
         Self { start: 0, lst }
     }
@@ -233,6 +240,7 @@ impl<T> ShiftArray<T> {
     /// assert_eq!(shift_array.start, 1);
     /// assert_eq!(shift_array.len(), 3);
     /// ```
+    #[inline]
     pub fn set_start(&mut self, start: usize) {
         self.start = start;
     }
@@ -274,6 +282,7 @@ impl<T> ShiftArray<T> {
     /// # Returns
     ///
     /// The length of the underlying vector.
+    #[inline]
     pub fn len(&self) -> usize {
         self.lst.len()
     }
@@ -283,6 +292,7 @@ impl<T> ShiftArray<T> {
     /// # Returns
     ///
     /// `true` if the underlying vector is empty, `false` otherwise.
+    #[inline]
     pub fn is_empty(&self) -> bool {
         self.lst.is_empty()
     }
@@ -337,6 +347,7 @@ impl<T> std::ops::Index<usize> for ShiftArray<T> {
     /// shift_array.set_start(1);
     /// assert_eq!(shift_array[2], 2);
     /// ```
+    #[inline]
     fn index(&self, key: usize) -> &Self::Output {
         &self.lst[key - self.start]
     }
@@ -366,6 +377,7 @@ impl<T> std::ops::IndexMut<usize> for ShiftArray<T> {
     /// shift_array[2] = 4;
     /// assert_eq!(shift_array[2], 4);
     /// ```
+    #[inline]
     fn index_mut(&mut self, key: usize) -> &mut Self::Output {
         &mut self.lst[key - self.start]
     }
@@ -375,6 +387,7 @@ impl<T> std::ops::IndexMut<usize> for ShiftArray<T> {
 ///
 /// Formats as: `RepeatArray[size] with value: {value}`
 impl<T: std::fmt::Display> std::fmt::Display for RepeatArray<T> {
+    #[inline]
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "RepeatArray[{}] with value: {}", self.size, self.value)
     }
